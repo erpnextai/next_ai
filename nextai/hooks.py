@@ -10,7 +10,7 @@ app_license = "MIT"
 
 # include js, css files in header of desk.html
 # app_include_css = "/assets/nextai/css/nextai.css"
-# app_include_js = "/assets/nextai/js/nextai.js"
+app_include_js = "/assets/nextai/js/nextai.js"
 
 # include js, css files in header of web template
 # web_include_css = "/assets/nextai/css/nextai.css"
