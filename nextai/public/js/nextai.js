@@ -49,7 +49,9 @@ $(document).ready(function () {
             // Optional: icon click action
             $icon.on('click', function () {
                 const keyValue = {
-                    key: $input.attr('id') || $input.data('fieldname') || 'unknown',
+                    id: $input.attr('id'),
+                    type: $input.data('type'),
+                    attributes: $input.data(),
                     value: $input.val()
                 };
                 const newValue = 'New value for ' + keyValue.key;
