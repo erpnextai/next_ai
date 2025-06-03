@@ -1,0 +1,16 @@
+Traceback (most recent call last):
+  File "apps/press/press/press/doctype/deploy_candidate_build/deploy_candidate_build.py", line 1015, in _build
+    self._prepare_build()
+  File "apps/press/press/press/doctype/deploy_candidate_build/deploy_candidate_build.py", line 887, in _prepare_build
+    self._prepare_build_context()
+  File "apps/press/press/press/doctype/deploy_candidate_build/deploy_candidate_build.py", line 848, in _prepare_build_context
+    repo_path_map = self._clone_repositories()
+  File "apps/press/press/press/doctype/deploy_candidate_build/deploy_candidate_build.py", line 465, in _clone_repositories
+    app.app_name = self._get_app_name(app.app)
+  File "apps/press/press/press/doctype/deploy_candidate_build/deploy_candidate_build.py", line 393, in _get_app_name
+    app_name = self._get_app_pyproject(app).get("project", {}).get("name")
+  File "apps/press/press/press/doctype/deploy_candidate_build/deploy_candidate_build.py", line 421, in _get_app_pyproject
+    return load_pyproject(app, pyproject_path)
+  File "apps/press/press/press/doctype/deploy_candidate/utils.py", line 95, in load_pyproject
+    raise Exception("App has invalid pyproject.toml file", app) from None
+Exception: ('App has invalid pyproject.toml file', 'nextai')
