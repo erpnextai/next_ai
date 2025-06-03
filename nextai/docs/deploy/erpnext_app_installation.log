@@ -1,0 +1,71 @@
+"""
+README:
+I tried to install the ERPNext app after the wizard setup is done. so I'm going to install nextai app.
+"""
+
+Installing erpnext...
+An error occurred while installing erpnext: ERPNext can only be installed on a fresh site where the setup wizard is not completed.
+You can reinstall this site (after saving your data) using: bench --site [sitename] reinstall
+Traceback with variables (most recent call last):
+  File "apps/frappe/frappe/commands/site.py", line 484, in install_app
+    _install_app(app, verbose=context.verbose, force=force)
+      context = {'sites': ['antony141.frappe.cloud'], 'force': False, 'verbose': False, 'profile': False}
+      apps = ('erpnext',)
+      force = True
+      _install_app = <function install_app at 0x7fb69f7dde40>
+      filelock = <function filelock at 0x7fb6a260f2e0>
+      exit_code = 0
+      site = 'antony141.frappe.cloud'
+      app = 'erpnext'
+      err = ValidationError('ERPNext can only be installed on a fresh site where the setup wizard is not completed.\nYou can reinstall this site (after saving your data) using: bench --site [sitename] reinstall')
+  File "apps/frappe/frappe/installer.py", line 306, in install_app
+    out = frappe.get_attr(before_install)()
+      name = 'erpnext'
+      verbose = False
+      set_as_patched = True
+      force = True
+      sync_jobs = <function sync_jobs at 0x7fb69ec22700>
+      sync_for = <function sync_for at 0x7fb69ec23880>
+      sync_customizations = <function sync_customizations at 0x7fb6a05bc540>
+      sync_fixtures = <function sync_fixtures at 0x7fb69ec23a60>
+      app_hooks = {'accounting_dimension_doctypes': ['GL Entry', 'Payment Ledger Entry', 'Sales Invoice', 'Purchase Invoice', 'Payment Entry', 'Asset', 'Stock Entry', 'Budget', 'Delivery Note', 'Sales Invoice Item', 'Purchase Invoice Item', 'Purchase Order Item', 'Sales Order Item', 'Journal Entry Account', 'Material Request Item', 'Delivery Note Item', 'Purchase Receipt Item', 'Stock Entry Detail', 'Payment Entry Deduction', 'Sales Taxes and Charges', 'Purchase Taxes and Charges', 'Shipping Rule', 'Landed Cost Item', 'Asset Value Adjustment', 'Asset Repair', 'Asset Capitalization', 'Loyalty Program', 'Stock Reconciliation', 'POS Profile', 'Opening Invoice Creation Tool', 'Opening Invoice Creation Tool Item', 'Subscription', 'Subscription Plan', 'POS Invoice', 'POS Invoice Item', 'Purchase Order', 'Purchase Receipt', 'Sales Order', 'Subcontracting Order', 'Subcontracting Order Item', 'Subcontracting Receipt', 'Subcontracting Receipt Item', 'Account Closing Balance', 'Supplier Quotation', 'Supplier Quota...
+      installed_apps = ['frappe']
+      before_install = 'erpnext.setup.install.check_setup_wizard_not_completed'
+  File "apps/erpnext/erpnext/setup/install.py", line 45, in check_setup_wizard_not_completed
+    frappe.throw(message)  # nosemgrep
+      message = 'ERPNext can only be installed on a fresh site where the setup wizard is not completed.\nYou can reinstall this site (after saving your data) using: bench --site [sitename] reinstall'
+  File "apps/frappe/frappe/__init__.py", line 609, in throw
+    msgprint(
+      msg = 'ERPNext can only be installed on a fresh site where the setup wizard is not completed.\nYou can reinstall this site (after saving your data) using: bench --site [sitename] reinstall'
+      exc = <class 'frappe.exceptions.ValidationError'>
+      title = None
+      is_minimizable = False
+      wide = False
+      as_list = False
+      primary_action = None
+  File "apps/frappe/frappe/__init__.py", line 574, in msgprint
+    _raise_exception()
+      msg = 'ERPNext can only be installed on a fresh site where the setup wizard is not completed.\nYou can reinstall this site (after saving your data) using: bench --site [sitename] reinstall'
+      title = None
+      raise_exception = <class 'frappe.exceptions.ValidationError'>
+      as_table = False
+      as_list = False
+      indicator = 'red'
+      alert = False
+      primary_action = None
+      is_minimizable = False
+      wide = False
+      realtime = False
+      sys = <module 'sys' (built-in)>
+      _raise_exception = <function msgprint.<locals>._raise_exception at 0x7fb69e6de160>
+      inspect = <module 'inspect' from '/usr/lib/python3.11/inspect.py'>
+      out = {'message': 'ERPNext can only be installed on a fresh site where the setup wizard is not completed.\nYou can reinstall this site (after saving your data) using: bench --site [sitename] reinstall', 'title': 'Message', 'indicator': 'red', 'raise_exception': 1, '__frappe_exc_id': '32624a5efecda22a2c3999beb5a8dab747a9ee4c3d2f8f096a96ccff'}
+  File "apps/frappe/frappe/__init__.py", line 525, in _raise_exception
+    raise exc
+      exc = ValidationError('ERPNext can only be installed on a fresh site where the setup wizard is not completed.\nYou can reinstall this site (after saving your data) using: bench --site [sitename] reinstall')
+      inspect = <module 'inspect' from '/usr/lib/python3.11/inspect.py'>
+      msg = 'ERPNext can only be installed on a fresh site where the setup wizard is not completed.\nYou can reinstall this site (after saving your data) using: bench --site [sitename] reinstall'
+      out = {'message': 'ERPNext can only be installed on a fresh site where the setup wizard is not completed.\nYou can reinstall this site (after saving your data) using: bench --site [sitename] reinstall', 'title': 'Message', 'indicator': 'red', 'raise_exception': 1, '__frappe_exc_id': '32624a5efecda22a2c3999beb5a8dab747a9ee4c3d2f8f096a96ccff'}
+      raise_exception = <class 'frappe.exceptions.ValidationError'>
+frappe.exceptions.ValidationError: ERPNext can only be installed on a fresh site where the setup wizard is not completed.
+You can reinstall this site (after saving your data) using: bench --site [sitename] reinstall
