@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    const allowedTypes = ['Text', 'Text Editor', 'Small Text', 'Long Text', 'Markdown Editor', 'Code'];
+    const allowedTypes = ['Text', 'Text Editor', 'Small Text', 'Long Text', 'JSON', 'HTML Editor', 'Markdown Editor', 'Code'];
 
     $(document).on('click', 'input[data-fieldtype], textarea[data-fieldtype], .ace_editor', function (e) {
        
@@ -15,9 +15,7 @@ $(document).ready(function () {
             });
 
             if (!$input.parent().hasClass('input-wrapper')) {
-                const inputWidth = $input.outerWidth();
-                $input.wrap('<div class="input-wrapper" style="position: relative; display: inline-block;"></div>');
-                $input.css('width', inputWidth + 'px');
+                $input.wrap('<div class="input-wrapper"></div>');
             }
 
             // Get a reliable container to append icon to
@@ -61,6 +59,9 @@ $(document).ready(function () {
             `
             });
 
+            if ($container.hasClass('ace_editor')) {
+                $icon.css('bottom', '45px');
+            }
 
             // Wrap if needed
             if (!$container.parent().hasClass('input-wrapper')) {
@@ -72,7 +73,7 @@ $(document).ready(function () {
             // Icon click
             $icon.on('click', function () {
                 let keyValue = {};
-                if (fieldtype === 'Code' || fieldtype === 'Markdown Editor') {
+                if ($container.hasClass('ace_editor')) {
                     // Use Ace Editor API
                     const editorElement = $container[0];
                     const aceEditor = ace.edit(editorElement);  // Assuming ACE is globally available
