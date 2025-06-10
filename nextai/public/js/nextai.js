@@ -68,31 +68,43 @@ $(document).ready(function () {
             $container.parent().css('position', 'relative');
         }
 
-
         $container.parent().append($icon);
 
-        // Icon click behavior
         $icon.on('click', function () {
             let keyValue = {};
+
+            const doctype = cur_frm.doc.doctype;
+
+            const $fieldWrapper = $container.closest('[data-fieldname]');
+            const fieldname = $fieldWrapper.length ? $fieldWrapper.data('fieldname') : 'unknown';
+            const fieldtype = $fieldWrapper.length ? $fieldWrapper.data('fieldtype') : 'unknown';
 
             if ($container.hasClass('ace_editor')) {
                 const aceEditor = ace.edit($container[0]);
                 keyValue = {
-                    key: $container.closest('[data-fieldname]').data('fieldname') || 'unknown',
-                    value: aceEditor.getValue()
+                    fieldname: fieldname,
+                    value: aceEditor.getValue(),
+                    doctype: doctype,
+                    fieldtype: fieldtype
                 };
-                aceEditor.setValue('New value for ' + keyValue.key, 1);
+                aceEditor.setValue('New value for ' + fieldname, 1);
+
             } else if ($container.hasClass('ql-container')) {
                 const $qlEditor = $container.find('.ql-editor');
                 keyValue = {
-                    key: $container.closest('[data-fieldname]').data('fieldname') || 'unknown',
-                    value: $qlEditor.html()
+                    fieldname: fieldname,
+                    value: $qlEditor.html(),
+                    doctype: doctype,
+                    fieldtype: fieldtype
                 };
-                $qlEditor.html('New value for ' + keyValue.key);
+                $qlEditor.html('New value for ' + fieldname);
+
             } else {
                 keyValue = {
-                    key: $input.attr('id') || $input.data('fieldname') || 'unknown',
-                    value: $input.val()
+                    fieldname: $input.attr('id') || $input.data('fieldname') || 'unknown',
+                    value: $input.val(),
+                    doctype: doctype,
+                    fieldtype: fieldtype
                 };
                 $input.val('New value for ' + keyValue.key).trigger('change');
             }
@@ -100,7 +112,6 @@ $(document).ready(function () {
             alert(JSON.stringify(keyValue));
         });
 
-        // Focus input/editor
         if ($input.hasClass('ace_editor')) {
             const editor = ace.edit($input[0]);
             editor.focus();
@@ -109,3 +120,16 @@ $(document).ready(function () {
         }
     });
 });
+
+
+function makeApiCall(){
+    frappe.call({
+        method: '',
+        args: JSON.stringify(keyValue),
+        callback: function(r){
+            if (r.message){
+                return r.message
+            }
+        }
+    })
+}
