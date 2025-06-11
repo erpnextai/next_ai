@@ -1,0 +1,119 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "field:model_name",
+ "creation": "2025-06-10 09:31:09.028907",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "platform",
+  "model_name",
+  "is_active",
+  "column_break_kwisj",
+  "knowledge_cutoff",
+  "verbose",
+  "plan_details_section",
+  "subscription_rpm",
+  "column_break_871ou",
+  "free_rpm",
+  "free_rpd"
+ ],
+ "fields": [
+  {
+   "fieldname": "platform",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Platform",
+   "options": "Gemini",
+   "reqd": 1
+  },
+  {
+   "fieldname": "model_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Model Name",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "column_break_kwisj",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "knowledge_cutoff",
+   "fieldtype": "Date",
+   "label": "Knowledge Cutoff"
+  },
+  {
+   "fieldname": "verbose",
+   "fieldtype": "Data",
+   "label": "Verbose"
+  },
+  {
+   "fieldname": "plan_details_section",
+   "fieldtype": "Section Break",
+   "label": "Plan Details"
+  },
+  {
+   "default": "0",
+   "description": "RPM = Requests Per Minute",
+   "fieldname": "subscription_rpm",
+   "fieldtype": "Int",
+   "label": "Subscription RPM"
+  },
+  {
+   "fieldname": "column_break_871ou",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "description": "RPM = Requests Per Minute",
+   "fieldname": "free_rpm",
+   "fieldtype": "Int",
+   "label": "Free RPM"
+  },
+  {
+   "default": "0",
+   "description": "RPD = Requests Per Day",
+   "fieldname": "free_rpd",
+   "fieldtype": "Int",
+   "label": "Free RPD"
+  },
+  {
+   "default": "0",
+   "fieldname": "is_active",
+   "fieldtype": "Check",
+   "label": "Is Active"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2025-06-10 09:59:50.840031",
+ "modified_by": "Administrator",
+ "module": "Nextai",
+ "name": "NextAI Model Info",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1,
+ "track_seen": 1,
+ "track_views": 1
+}
