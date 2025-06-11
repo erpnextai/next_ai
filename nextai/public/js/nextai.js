@@ -70,7 +70,7 @@ $(document).ready(function () {
 
         $container.parent().append($icon);
 
-        $icon.on('click', function () {
+        $icon.on('click', async function () {
             let keyValue = {};
 
             const doctype = cur_frm.doc.doctype;
@@ -82,34 +82,46 @@ $(document).ready(function () {
             if ($container.hasClass('ace_editor')) {
                 const aceEditor = ace.edit($container[0]);
                 keyValue = {
-                    fieldname: fieldname,
+                    key: fieldname,
                     value: aceEditor.getValue(),
                     doctype: doctype,
-                    fieldtype: fieldtype
+                    type: fieldtype
                 };
-                aceEditor.setValue('New value for ' + fieldname, 1);
 
             } else if ($container.hasClass('ql-container')) {
                 const $qlEditor = $container.find('.ql-editor');
                 keyValue = {
-                    fieldname: fieldname,
+                    key: fieldname,
                     value: $qlEditor.html(),
                     doctype: doctype,
-                    fieldtype: fieldtype
+                    type: fieldtype
                 };
-                $qlEditor.html('New value for ' + fieldname);
 
             } else {
                 keyValue = {
-                    fieldname: $input.attr('id') || $input.data('fieldname') || 'unknown',
+                    key: $input.attr('id') || $input.data('fieldname') || 'unknown',
                     value: $input.val(),
                     doctype: doctype,
-                    fieldtype: fieldtype
+                    type: fieldtype
                 };
-                $input.val('New value for ' + keyValue.key).trigger('change');
             }
 
-            alert(JSON.stringify(keyValue));
+            try {
+                const res = await makeApiCall(keyValue);
+
+                if ($container.hasClass('ace_editor')) {
+                    ace.edit($container[0]).setValue(res, 1);
+                } else if ($container.hasClass('ql-container')) {
+                    $container.find('.ql-editor').html(res);
+                } else {
+                    $input.val(res).trigger('change');
+                }
+
+                alert(res);
+            } catch (err) {
+                console.error("API call failed:", err);
+                alert("API call failed.");
+            }
         });
 
         if ($input.hasClass('ace_editor')) {
@@ -122,14 +134,22 @@ $(document).ready(function () {
 });
 
 
-function makeApiCall(){
-    frappe.call({
-        method: '',
-        args: JSON.stringify(keyValue),
-        callback: function(r){
-            if (r.message){
-                return r.message
+function makeApiCall(data) {
+    return new Promise((resolve, reject) => {
+        frappe.call({
+            method: 'nextai.ai.get_ai_response',
+            args: data,
+            callback: function (r) {
+                if (r.message) {
+                    data = r.message
+                    resolve(data.message);
+                } else {
+                    reject("No message in response");
+                }
+            },
+            error: function (err) {
+                reject(err);
             }
-        }
-    })
+        });
+    });
 }
