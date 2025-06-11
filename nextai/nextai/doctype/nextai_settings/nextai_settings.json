@@ -1,0 +1,92 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2025-06-10 19:53:41.290936",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "platform",
+  "column_break_klhgl",
+  "model_name",
+  "key_settings_section",
+  "api_key",
+  "column_break_aba1z",
+  "is_subscription",
+  "is_free"
+ ],
+ "fields": [
+  {
+   "default": "Gemini",
+   "fieldname": "platform",
+   "fieldtype": "Select",
+   "label": "Platform",
+   "options": "Gemini"
+  },
+  {
+   "fieldname": "model_name",
+   "fieldtype": "Link",
+   "label": "Model Name",
+   "options": "NextAI Model Info"
+  },
+  {
+   "fieldname": "key_settings_section",
+   "fieldtype": "Section Break",
+   "label": "Key Settings"
+  },
+  {
+   "fieldname": "api_key",
+   "fieldtype": "Password",
+   "label": "API Key"
+  },
+  {
+   "fieldname": "column_break_aba1z",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "description": "Check if the API key is a subscription key",
+   "fieldname": "is_subscription",
+   "fieldtype": "Check",
+   "label": "Is Subscription"
+  },
+  {
+   "default": "0",
+   "description": "Check if the API key is a free key.",
+   "fieldname": "is_free",
+   "fieldtype": "Check",
+   "label": "Is Free"
+  },
+  {
+   "fieldname": "column_break_klhgl",
+   "fieldtype": "Column Break"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "issingle": 1,
+ "links": [],
+ "modified": "2025-06-10 19:55:01.351269",
+ "modified_by": "Administrator",
+ "module": "Nextai",
+ "name": "NextAI Settings",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1,
+ "track_seen": 1,
+ "track_views": 1
+}
