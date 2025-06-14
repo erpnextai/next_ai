@@ -3,4 +3,4 @@ from typing import List
 
 
 class NEXTAIBaseModel(BaseModel):
-    content = Field(..., description="Generate content based on the input provided.")
+    response: str = Field(..., description="Generate content based on the input & Instructions provided.")
