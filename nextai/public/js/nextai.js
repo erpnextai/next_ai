@@ -1,4 +1,24 @@
 $(document).ready(function () {
+
+    if (
+        (
+            frappe.user.has_role("NextAI User") ||
+            frappe.session.user === "Administrator" ||
+            frappe.user.has_role("System Manager")
+        ) && 
+        (
+            cur_frm.doc.doctype !== 'DocType' &&
+            cur_frm.doc.doctype !== 'Customize Form'
+        )
+    ) {
+        nextAIFeature();
+    }
+
+
+});
+
+
+function nextAIFeature(){
     const allowedTypes = ['Text', 'Text Editor', 'Small Text', 'Long Text', 'JSON', 'HTML Editor', 'Markdown Editor', 'Code'];
 
     $(document).on('click', 'input[data-fieldtype], textarea[data-fieldtype], .ace_editor, .ql-editor', function (e) {
@@ -109,15 +129,28 @@ $(document).ready(function () {
             try {
                 const res = await makeApiCall(keyValue);
 
-                if ($container.hasClass('ace_editor')) {
-                    ace.edit($container[0]).setValue(res, 1);
-                } else if ($container.hasClass('ql-container')) {
-                    $container.find('.ql-editor').html(res);
-                } else {
-                    $input.val(res).trigger('change');
-                }
+                // if ($container.hasClass('ace_editor')) {
+                //     ace.edit($container[0]).setValue(res, 1);
+                // } else if ($container.hasClass('ql-container')) {
+                //     $container.find('.ql-editor').html(res);
+                // } else {
+                //     $input.val(res).trigger('change');
+                // }
 
-                alert(res);
+                typeText(
+                    $container.hasClass('ace_editor') ? $container :
+                    $container.hasClass('ql-container') ? $container :
+                    $input,
+                    res,
+                    $container.hasClass('ace_editor') ? 'ace' :
+                    $container.hasClass('ql-container') ? 'quill' : 'input',
+                    () => {
+                        $input.trigger('change');
+                    }
+                );
+
+
+                // alert(res);
             } catch (err) {
                 console.error("API call failed:", err);
                 alert("API call failed.");
@@ -131,7 +164,7 @@ $(document).ready(function () {
             $input.focus();
         }
     });
-});
+}
 
 
 function makeApiCall(data) {
@@ -152,4 +185,36 @@ function makeApiCall(data) {
             }
         });
     });
+}
+
+
+function typeText($target, text, type, callback) {
+    const totalDuration = 1000; // milliseconds
+    const startTime = performance.now();
+    const len = text.length;
+
+    function step(now) {
+        const elapsed = now - startTime;
+        const progress = Math.min(1, elapsed / totalDuration);
+        const charsToShow = Math.floor(progress * len);
+        const partial = text.slice(0, charsToShow);
+
+        if (type === 'ace') {
+            const editor = ace.edit($target[0]);
+            editor.setValue(partial, -1);
+        } else if (type === 'quill') {
+            const $editor = $target.find('.ql-editor');
+            $editor.html(partial);  // ← allow HTML rendering
+        } else {
+            $target.val(partial);
+        }
+
+        if (progress < 1) {
+            requestAnimationFrame(step);
+        } else if (callback) {
+            callback();
+        }
+    }
+
+    requestAnimationFrame(step);
 }
