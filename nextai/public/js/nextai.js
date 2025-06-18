@@ -1,19 +1,18 @@
 $(document).ready(function () {
-
-    if (
-        (
-            frappe.user.has_role("NextAI User") ||
-            frappe.session.user === "Administrator" ||
-            frappe.user.has_role("System Manager")
-        ) && 
-        (
-            cur_frm.doc.doctype !== 'DocType' &&
-            cur_frm.doc.doctype !== 'Customize Form'
-        )
-    ) {
-        nextAIFeature();
-    }
-
+    frappe.after_ajax(() => {
+        if ((
+                frappe.user.has_role("NextAI User") ||
+                frappe.session.user === "Administrator" ||
+                frappe.user.has_role("System Manager")
+            ) && 
+            (
+                cur_frm.doc.doctype !== 'DocType' &&
+                cur_frm.doc.doctype !== 'Customize Form'
+            )
+        ) {
+            nextAIFeature();
+        }
+    })
 
 });
 
@@ -27,18 +26,15 @@ function nextAIFeature(){
 
         if (!allowedTypes.includes(fieldtype)) return;
 
-        // Remove any existing icons
         $('.apiIcon').remove();
         $('[data-has-icon]').each(function () {
             $(this).css('padding-right', '').removeAttr('data-has-icon');
         });
 
-        // Wrap input if not already wrapped
         if (!$input.parent().hasClass('input-wrapper')) {
             $input.wrap('<div class="input-wrapper"></div>');
         }
 
-        // Determine the container to attach the button to
         let $container;
         if ($input.hasClass('ace_editor')) {
             $container = $input;
@@ -50,38 +46,45 @@ function nextAIFeature(){
             $container = $input;
         }
 
-        // Mark as initialized
         $container.attr('data-has-icon', true);
 
         const $icon = $('<button/>', {
             class: 'apiIcon',
             type: 'button',
             html: `
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="black" viewBox="0 0 24 24">
-                    <path d="M12 2l1.09 3.41L16 6l-2.91 0.59L12 10l-1.09-3.41L8 6l2.91-0.59L12 2zm4 14l0.77 2.3L19 20l-2.3 0.47L16 23l-0.77-2.53L13 20l2.3-0.7L16 16zm-10 0l0.77 2.3L9 20l-2.3 0.47L6 23l-0.77-2.53L3 20l2.3-0.7L6 16z"/>
-                </svg>
-                <span style="margin-left: 6px;">Next AI</span>
+                <div style="
+                    background: white;
+                    border-radius: 9999px;
+                    padding: 6px 16px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 6px;
+                ">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#333" viewBox="0 0 24 24" style="order: -1;">
+                        <path d="M12 2l1.09 3.41L16 6l-2.91 0.59L12 10l-1.09-3.41L8 6l2.91-0.59L12 2zm4 14l0.77 2.3L19 20l-2.3 0.47L16 23l-0.77-2.53L13 20l2.3-0.7L16 16zm-10 0l0.77 2.3L9 20l-2.3 0.47L6 23l-0.77-2.53L3 20l2.3-0.7L6 16z"/>
+                    </svg>
+                    <span style="font-size: 14px; font-weight: 500; color: #333;">NextAI</span>
+                </div>
             `,
             style: `
+                background: linear-gradient(to right, #00f0ff, #a000ff);
+                border-radius: 9999px;
+                padding: 2px;
+                border: none;
+                cursor: pointer;
                 position: absolute;
                 bottom: 10px;
                 right: 10px;
-                background-color: #2196f3;
-                color: white;
-                border: none;
-                border-radius: 8px;
-                padding: 6px 12px;
-                font-size: 14px;
-                font-weight: 500;
-                display: flex;
-                align-items: center;
-                cursor: pointer;
                 z-index: 1000;
-                box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+                box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+                transition: transform 0.2s ease;
             `
-        });
+        }).hover(
+            function() { $(this).css('transform', 'scale(1.05)'); },
+            function() { $(this).css('transform', 'scale(1)'); }
+        );
 
-        // Wrap for proper button placement
         if (!$container.parent().hasClass('input-wrapper')) {
             $container.wrap('<div class="input-wrapper" style="position: relative;"></div>');
         } else {
@@ -91,6 +94,8 @@ function nextAIFeature(){
         $container.parent().append($icon);
 
         $icon.on('click', async function () {
+            $icon.prop('disabled', true).css('opacity', 0.6).css('pointer-events', 'none');
+
             let keyValue = {};
 
             const doctype = cur_frm.doc.doctype;
@@ -100,6 +105,7 @@ function nextAIFeature(){
             const fieldtype = $fieldWrapper.length ? $fieldWrapper.data('fieldtype') : 'unknown';
 
             if ($container.hasClass('ace_editor')) {
+                debugger
                 const aceEditor = ace.edit($container[0]);
                 keyValue = {
                     key: fieldname,
@@ -129,14 +135,6 @@ function nextAIFeature(){
             try {
                 const res = await makeApiCall(keyValue);
 
-                // if ($container.hasClass('ace_editor')) {
-                //     ace.edit($container[0]).setValue(res, 1);
-                // } else if ($container.hasClass('ql-container')) {
-                //     $container.find('.ql-editor').html(res);
-                // } else {
-                //     $input.val(res).trigger('change');
-                // }
-
                 typeText(
                     $container.hasClass('ace_editor') ? $container :
                     $container.hasClass('ql-container') ? $container :
@@ -149,11 +147,13 @@ function nextAIFeature(){
                     }
                 );
 
-
-                // alert(res);
             } catch (err) {
                 console.error("API call failed:", err);
                 alert("API call failed.");
+            } finally {
+                setTimeout(()=>{
+                    $icon.prop('disabled', false).css('opacity', 1).css('pointer-events', 'auto');
+                }, 1000)
             }
         });
 
@@ -189,7 +189,7 @@ function makeApiCall(data) {
 
 
 function typeText($target, text, type, callback) {
-    const totalDuration = 1000; // milliseconds
+    const totalDuration = 1000;
     const startTime = performance.now();
     const len = text.length;
 
@@ -204,7 +204,7 @@ function typeText($target, text, type, callback) {
             editor.setValue(partial, -1);
         } else if (type === 'quill') {
             const $editor = $target.find('.ql-editor');
-            $editor.html(partial);  // ← allow HTML rendering
+            $editor.html(partial); 
         } else {
             $target.val(partial);
         }
