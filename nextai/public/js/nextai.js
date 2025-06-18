@@ -105,7 +105,6 @@ function nextAIFeature(){
             const fieldtype = $fieldWrapper.length ? $fieldWrapper.data('fieldtype') : 'unknown';
 
             if ($container.hasClass('ace_editor')) {
-                debugger
                 const aceEditor = ace.edit($container[0]);
                 keyValue = {
                     key: fieldname,
