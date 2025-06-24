@@ -1,5 +1,5 @@
 app_name = "nextai"
-app_title = "Nextai"
+app_title = "NextAI"
 app_publisher = "antonykumar15898@gmail.com"
 app_description = "AI Solution"
 app_email = "antonykumar@gmail.com"
