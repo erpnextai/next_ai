@@ -17,3 +17,6 @@ NextAI supports the following Frappe versions:
 3. Enter your **prompt** in the field (e.g., "Generate privacy policy").
 4. Click the **NextAI** button.
 5. The AI-generated content will be inserted into the field based on your prompt.
+
+![WhatsApp Image 2025-06-24 at 9 19 28 PM](https://github.com/user-attachments/assets/6ea75a79-5ca2-4650-bed7-2d1ed151e04e)
+
