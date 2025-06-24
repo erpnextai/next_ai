@@ -10,6 +10,7 @@
   "platform",
   "column_break_klhgl",
   "model_name",
+  "auto_switch_model_on_rpm",
   "key_settings_section",
   "api_key",
   "column_break_aba1z",
@@ -61,12 +62,19 @@
   {
    "fieldname": "column_break_klhgl",
    "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "description": "Recommended for Free Tier Users:\nIf you're using the free plan, this feature will automatically switch to another available model when the current one reaches its limit, so your requests can still be handled.\n\nNote: If all available models also reach their RPM limit, it's recommended to purchase a subscription for uninterrupted access.",
+   "fieldname": "auto_switch_model_on_rpm",
+   "fieldtype": "Check",
+   "label": "Automatically switch the model when the RPM threshold is exceeded."
   }
  ],
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2025-06-10 19:55:01.351269",
+ "modified": "2025-06-23 19:51:56.597952",
  "modified_by": "Administrator",
  "module": "Nextai",
  "name": "NextAI Settings",
