@@ -118,13 +118,28 @@ class NextAILLM:
         self.validate_token()
 
         self.nextai_settings = self.get_nextai_settings()
+        self.validate_settings()
+
         self.current_model = self.nextai_settings.model_name
         self.model_info = self.get_model_info()
-        
+        self.validate_model_info()
+
+    def validate_model_info(self):
+        if not self.model_info:
+            frappe.log_error(frappe.get_traceback(), "No Active Model Info Found in NextAILLM.validate_model_info")
+            frappe.throw(_("No active model info found for the platform {0}. Check NextAI Model Info Doctype.").format(self.nextai_settings.platform))
     
     def validate_token(self):
         if len(self.prompt) > 8000:
             frappe.throw(_("Prompt length exceeds the maximum limit of 8000 characters. Please shorten your prompt."))
+    
+    def validate_settings(self):
+        if not self.nextai_settings.model_name:
+            frappe.throw(_("Model name is not set in NextAI Settings. Please configure the model name."))
+        if not self.nextai_settings.platform:
+            frappe.throw(_("Platform is not set in NextAI Settings. Please configure the platform."))
+        if not self.nextai_settings.get_password("api_key"):
+            frappe.throw(_("API Key is not set in NextAI Settings. Please configure the API Key."))
 
     def get_nextai_settings(self):
         nextai_settings = frappe.get_doc('NextAI Settings')
