@@ -42,8 +42,8 @@ def test_gemini(**kwargs):
 
 @frappe.whitelist(methods=["POST"])
 def get_ai_response(**kwargs):
-    nextai_llm = NextAILLM()
     prompt = PROMPTS[kwargs['type']].format(input=kwargs['value'])
+    nextai_llm = NextAILLM(prompt)
     message = nextai_llm.get_llm_response(prompt)
     return {"status_code":200, "status": "sucess", "message": message}
 
@@ -113,11 +113,19 @@ def get_delay_info(model_info, is_subscription, is_free):
 
 
 class NextAILLM:
-    def __init__(self):
+    def __init__(self, prompt: str = None):
+        self.prompt = prompt
+        self.validate_token()
+
         self.nextai_settings = self.get_nextai_settings()
         self.current_model = self.nextai_settings.model_name
         self.model_info = self.get_model_info()
+        
     
+    def validate_token(self):
+        if len(self.prompt) > 8000:
+            frappe.throw(_("Prompt length exceeds the maximum limit of 8000 characters. Please shorten your prompt."))
+
     def get_nextai_settings(self):
         nextai_settings = frappe.get_doc('NextAI Settings')
         return nextai_settings
