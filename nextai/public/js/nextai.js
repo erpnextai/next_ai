@@ -138,7 +138,7 @@ function nextAIFeature(){
             req = JSON.stringify(cloned)
 
             if ((nextai.cache[req] != undefined) && (nextai.cache[req] == keyValue['value'])){
-                frappe.msgprint('Choose from your side')
+                frappe.msgprint('⚠️ Invalid Input: Cannot process AI-generated output as a new prompt. Please enter your own input.')
             } else {
                 nextai.cache = {};
                 try {
