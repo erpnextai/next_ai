@@ -1,18 +1,22 @@
+frappe.provide("nextai.cache");
+
 $(document).ready(function () {
-    frappe.after_ajax(() => {
-        if ((
-                frappe.user.has_role("NextAI User") ||
-                frappe.session.user === "Administrator" ||
-                frappe.user.has_role("System Manager")
-            ) && 
-            (
-                cur_frm.doc.doctype !== 'DocType' &&
-                cur_frm.doc.doctype !== 'Customize Form'
-            )
-        ) {
-            nextAIFeature();
-        }
-    })
+    setTimeout(()=>{
+        frappe.after_ajax(() => {
+            if ((
+                    frappe.user.has_role("NextAI User") ||
+                    frappe.session.user === "Administrator" ||
+                    frappe.user.has_role("System Manager")
+                ) && 
+                (
+                    cur_frm.doc.doctype !== 'DocType' &&
+                    cur_frm.doc.doctype !== 'Customize Form'
+                )
+            ) {
+                nextAIFeature();
+            }
+        })
+    }, 1000)
 
 });
 
@@ -55,14 +59,14 @@ function nextAIFeature(){
                 <div style="
                     background: white;
                     border-radius: 9999px;
-                    padding: 6px 16px;
+                    padding: 3px 10px;
                     display: flex;
                     align-items: center;
                     justify-content: center;
                     gap: 6px;
                 ">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#333" viewBox="0 0 24 24" style="order: -1;">
-                        <path d="M12 2l1.09 3.41L16 6l-2.91 0.59L12 10l-1.09-3.41L8 6l2.91-0.59L12 2zm4 14l0.77 2.3L19 20l-2.3 0.47L16 23l-0.77-2.53L13 20l2.3-0.7L16 16zm-10 0l0.77 2.3L9 20l-2.3 0.47L6 23l-0.77-2.53L3 20l2.3-0.7L6 16z"/>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="14" fill="currentColor" class="bi bi-stars" viewBox="0 0 16 16">
+                        <path d="M7.657 6.247c.11-.33.576-.33.686 0l.645 1.937a2.89 2.89 0 0 0 1.829 1.828l1.936.645c.33.11.33.576 0 .686l-1.937.645a2.89 2.89 0 0 0-1.828 1.829l-.645 1.936a.361.361 0 0 1-.686 0l-.645-1.937a2.89 2.89 0 0 0-1.828-1.828l-1.937-.645a.361.361 0 0 1 0-.686l1.937-.645a2.89 2.89 0 0 0 1.828-1.828zM3.794 1.148a.217.217 0 0 1 .412 0l.387 1.162c.173.518.579.924 1.097 1.097l1.162.387a.217.217 0 0 1 0 .412l-1.162.387A1.73 1.73 0 0 0 4.593 5.69l-.387 1.162a.217.217 0 0 1-.412 0L3.407 5.69A1.73 1.73 0 0 0 2.31 4.593l-1.162-.387a.217.217 0 0 1 0-.412l1.162-.387A1.73 1.73 0 0 0 3.407 2.31zM10.863.099a.145.145 0 0 1 .274 0l.258.774c.115.346.386.617.732.732l.774.258a.145.145 0 0 1 0 .274l-.774.258a1.16 1.16 0 0 0-.732.732l-.258.774a.145.145 0 0 1-.274 0l-.258-.774a1.16 1.16 0 0 0-.732-.732L9.1 2.137a.145.145 0 0 1 0-.274l.774-.258c.346-.115.617-.386.732-.732z"/>
                     </svg>
                     <span style="font-size: 14px; font-weight: 500; color: #333;">NextAI</span>
                 </div>
@@ -94,8 +98,6 @@ function nextAIFeature(){
         $container.parent().append($icon);
 
         $icon.on('click', async function () {
-            $icon.prop('disabled', true).css('opacity', 0.6).css('pointer-events', 'none');
-
             let keyValue = {};
 
             const doctype = cur_frm.doc.doctype;
@@ -131,29 +133,41 @@ function nextAIFeature(){
                 };
             }
 
-            try {
-                const res = await makeApiCall(keyValue);
+            cloned = structuredClone(keyValue)
+            delete cloned['value']
+            req = JSON.stringify(cloned)
 
-                typeText(
-                    $container.hasClass('ace_editor') ? $container :
-                    $container.hasClass('ql-container') ? $container :
-                    $input,
-                    res,
-                    $container.hasClass('ace_editor') ? 'ace' :
-                    $container.hasClass('ql-container') ? 'quill' : 'input',
-                    () => {
-                        $input.trigger('change');
-                    }
-                );
+            if ((nextai.cache[req] != undefined) && (nextai.cache[req] == keyValue['value'])){
+                frappe.msgprint('Choose from your side')
+            } else {
+                nextai.cache = {};
+                try {
+                    const res = await makeApiCall(keyValue);
 
-            } catch (err) {
-                console.error("API call failed:", err);
-                alert("API call failed.");
-            } finally {
-                setTimeout(()=>{
-                    $icon.prop('disabled', false).css('opacity', 1).css('pointer-events', 'auto');
-                }, 1000)
+                    $icon.prop('disabled', true).css('opacity', 0.6).css('pointer-events', 'none');
+                    
+                    typeText(
+                        $container.hasClass('ace_editor') ? $container :
+                        $container.hasClass('ql-container') ? $container :
+                        $input,
+                        res,
+                        $container.hasClass('ace_editor') ? 'ace' :
+                        $container.hasClass('ql-container') ? 'quill' : 'input',
+                        () => {
+                            $input.trigger('change');
+                        }
+                    );
+    
+                } catch (err) {
+                    console.error("API call failed:", err);
+                    alert("API call failed.");
+                } finally {
+                    setTimeout(()=>{
+                        $icon.prop('disabled', false).css('opacity', 1).css('pointer-events', 'auto');
+                    }, 1000)
+                }
             }
+
         });
 
         if ($input.hasClass('ace_editor')) {
@@ -171,10 +185,16 @@ function makeApiCall(data) {
         frappe.call({
             method: 'nextai.ai.get_ai_response',
             args: data,
+            freeze:true, freeze_message:__("Connecting with NextAI"),
             callback: function (r) {
                 if (r.message) {
-                    data = r.message
-                    resolve(data.message);
+                    const responseData = r.message.message;
+
+                    delete data['value']
+                    const cacheKey = JSON.stringify(data);
+                    nextai.cache[cacheKey] = responseData;
+                    
+                    resolve(responseData);
                 } else {
                     reject("No message in response");
                 }
