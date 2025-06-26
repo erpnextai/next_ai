@@ -103,6 +103,7 @@ PROMPTS = {
     "Markdown Editor": MARKDOWN,
     "Small Text": SMALL_TEXT,
     "Long Text": LONG_TEXT,
+    "Text": LONG_TEXT,
     "HTML Editor": HTML_EDITOR,
     "Text Editor": TEXT_EDITOR,
     "Code": CODE,
