@@ -22,14 +22,18 @@
    "default": "Gemini",
    "fieldname": "platform",
    "fieldtype": "Select",
+   "in_list_view": 1,
    "label": "Platform",
-   "options": "Gemini"
+   "options": "Gemini",
+   "reqd": 1
   },
   {
    "fieldname": "model_name",
    "fieldtype": "Link",
+   "in_list_view": 1,
    "label": "Model Name",
-   "options": "NextAI Model Info"
+   "options": "NextAI Model Info",
+   "reqd": 1
   },
   {
    "fieldname": "key_settings_section",
@@ -37,9 +41,12 @@
    "label": "Key Settings"
   },
   {
+   "description": "You can generate an API key for Gemini by visiting the following link: https://aistudio.google.com/apikey",
    "fieldname": "api_key",
    "fieldtype": "Password",
-   "label": "API Key"
+   "in_list_view": 1,
+   "label": "API Key",
+   "reqd": 1
   },
   {
    "fieldname": "column_break_aba1z",
@@ -53,7 +60,7 @@
    "label": "Is Subscription"
   },
   {
-   "default": "0",
+   "default": "1",
    "description": "Check if the API key is a free key.",
    "fieldname": "is_free",
    "fieldtype": "Check",
@@ -64,7 +71,7 @@
    "fieldtype": "Column Break"
   },
   {
-   "default": "0",
+   "default": "1",
    "description": "Recommended for Free Tier Users:\nIf you're using the free plan, this feature will automatically switch to another available model when the current one reaches its limit, so your requests can still be handled.\n\nNote: If all available models also reach their RPM limit, it's recommended to purchase a subscription for uninterrupted access.",
    "fieldname": "auto_switch_model_on_rpm",
    "fieldtype": "Check",
@@ -74,7 +81,7 @@
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2025-06-23 19:51:56.597952",
+ "modified": "2025-06-26 13:08:44.524606",
  "modified_by": "Administrator",
  "module": "Nextai",
  "name": "NextAI Settings",

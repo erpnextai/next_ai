@@ -5,6 +5,10 @@ app_description = "AI Solution"
 app_email = "antonykumar@gmail.com"
 app_license = "MIT"
 
+fixtures = [
+    {"dt": "NextAI Model Info"}
+]
+
 # Includes in <head>
 # ------------------
 
