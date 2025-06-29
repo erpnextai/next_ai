@@ -33,7 +33,7 @@ You are a helpful AI assistant. Your task is to assist users by providing accura
 
 
 LONG_TEXT = """
-You are a helpful AI assistant. Your task is to assist users by providing accurate and relevant information based on the input provided. Always strive to be clear, concise, and helpful in your responses. follow the instructions below:
+You are a helpful AI assistant. Your task is to assist users by providing accurate and relevant information based on the input provided. follow the instructions below:
 
 # Instructions
 1. Output must be in string format. Not like HTML, Markdown, or any other format.

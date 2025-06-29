@@ -1,1 +1,27 @@
-License: MIT
+Custom Non-Commercial License
+
+Copyright (c) 2025 Antony Praveenkumar Moses
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to use,
+copy, modify, and distribute the Software solely for personal, non-commercial purposes, subject to the following conditions:
+
+1. Non-Commercial Use Only:  
+   The Software may not be used, either in whole or in part, for any commercial purposes. Commercial use includes, but is not limited to, any activity that generates revenue, monetary gain, or is intended for commercial advantage or compensation.
+
+2. Modifications and Derivatives:  
+   You may modify or create derivative works based on the Software for personal use. Such modifications must also comply with the non-commercial terms outlined herein.
+
+3. Redistribution:  
+   Redistribution of the Software or any derivatives must include this license in its entirety and must not suggest that it is available for commercial use.
+
+4. Attribution:  
+   You must retain the copyright notice and this license in all copies or substantial portions of the Software.
+
+5. No Warranty:  
+   The Software is provided "as is", without warranty of any kind, express or implied, including but not limited to the warranties of merchantability, fitness for a particular purpose, and noninfringement.
+
+6. Commercial Licensing:  
+   For commercial licensing inquiries, please contact: antony15898@gmail.com
+
+Any violation of these terms will result in the automatic termination of this license.

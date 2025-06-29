@@ -15,7 +15,9 @@
   "api_key",
   "column_break_aba1z",
   "is_subscription",
-  "is_free"
+  "is_free",
+  "help_tab",
+  "about"
  ],
  "fields": [
   {
@@ -76,12 +78,23 @@
    "fieldname": "auto_switch_model_on_rpm",
    "fieldtype": "Check",
    "label": "Automatically switch the model when the RPM threshold is exceeded."
+  },
+  {
+   "fieldname": "help_tab",
+   "fieldtype": "Tab Break",
+   "label": "Help"
+  },
+  {
+   "fieldname": "about",
+   "fieldtype": "HTML",
+   "label": "About",
+   "options": "\n\n  <div class=\"container py-5\">\n    <!-- Limitation and Use of NextAI -->\n    <div class=\"mb-4 p-4 border rounded bg-white shadow-sm\">\n      <h3 class=\"mb-3\">Limitation and Use of NextAI</h3>\n      <ul class=\"list-group list-group-flush\">\n        <li class=\"list-group-item\">This is very useful for generating content about a topic.</li>\n        <li class=\"list-group-item\">Useful for correcting grammar.</li>\n        <li class=\"list-group-item\">This is used to generate content and correct the content. The user should keep in mind that the LLM can make mistakes.</li>\n      </ul>\n    </div>\n\n    <!-- How to Reach Us -->\n    <div class=\"p-4 border rounded bg-white shadow-sm\">\n      <h3 class=\"mb-3\">How to Reach Us</h3>\n      <p>Use this link to submit your queries, we will reach out to you:</p>\n      <a class=\"btn btn-primary\" href=\"https://docs.google.com/forms/d/e/1FAIpQLSckkUggY_48O18j2EokqUdY2GkrWgyvx6nfLzWkK8D3S-8qVQ/viewform?usp=dialog\" target=\"_blank\">\n         Submit Your Query\n      </a>\n    </div>\n  </div>"
   }
  ],
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2025-06-28 13:19:02.461691",
+ "modified": "2025-06-29 15:37:15.566955",
  "modified_by": "Administrator",
  "module": "Nextai",
  "name": "NextAI Settings",
