@@ -1,9 +1,9 @@
-app_name = "nextai"
-app_title = "NextAI"
-app_publisher = "antonykumar15898@gmail.com"
-app_description = "AI Solution"
-app_email = "antonykumar@gmail.com"
-app_license = "MIT"
+app_name = "next_ai"
+app_title = "Next AI"
+app_publisher = "Antony Praveenkumar Moses"
+app_description = "Next AI is an AI-enabled application designed for seamless content generation and enhancement. With the power of advanced language models, it helps users create high-quality content and intelligently improve existing text, making writing faster, smarter, and more effective."
+app_email = "antonykumar15898@gmail.com"
+app_license = "Custom Non-Commercial License"
 
 fixtures = [
     {"dt": "NextAI Model Info"}
@@ -13,15 +13,15 @@ fixtures = [
 # ------------------
 
 # include js, css files in header of desk.html
-# app_include_css = "/assets/nextai/css/nextai.css"
-app_include_js = "/assets/nextai/js/nextai.js"
+# app_include_css = "/assets/next_ai/css/next_ai.css"
+app_include_js = "/assets/next_ai/js/next_ai.js"
 
 # include js, css files in header of web template
-# web_include_css = "/assets/nextai/css/nextai.css"
-# web_include_js = "/assets/nextai/js/nextai.js"
+# web_include_css = "/assets/next_ai/css/next_ai.css"
+# web_include_js = "/assets/next_ai/js/next_ai.js"
 
 # include custom scss in every website theme (without file extension ".scss")
-# website_theme_scss = "nextai/public/scss/website"
+# website_theme_scss = "next_ai/public/scss/website"
 
 # include js, css files in header of web form
 # webform_include_js = {"doctype": "public/js/doctype.js"}
@@ -58,43 +58,43 @@ app_include_js = "/assets/nextai/js/nextai.js"
 
 # add methods and filters to jinja environment
 # jinja = {
-# 	"methods": "nextai.utils.jinja_methods",
-# 	"filters": "nextai.utils.jinja_filters"
+# 	"methods": "next_ai.utils.jinja_methods",
+# 	"filters": "next_ai.utils.jinja_filters"
 # }
 
 # Installation
 # ------------
 
-# before_install = "nextai.install.before_install"
-# after_install = "nextai.install.after_install"
+# before_install = "next_ai.install.before_install"
+# after_install = "next_ai.install.after_install"
 
 # Uninstallation
 # ------------
 
-# before_uninstall = "nextai.uninstall.before_uninstall"
-# after_uninstall = "nextai.uninstall.after_uninstall"
+# before_uninstall = "next_ai.uninstall.before_uninstall"
+# after_uninstall = "next_ai.uninstall.after_uninstall"
 
 # Integration Setup
 # ------------------
 # To set up dependencies/integrations with other apps
 # Name of the app being installed is passed as an argument
 
-# before_app_install = "nextai.utils.before_app_install"
-# after_app_install = "nextai.utils.after_app_install"
+# before_app_install = "next_ai.utils.before_app_install"
+# after_app_install = "next_ai.utils.after_app_install"
 
 # Integration Cleanup
 # -------------------
 # To clean up dependencies/integrations with other apps
 # Name of the app being uninstalled is passed as an argument
 
-# before_app_uninstall = "nextai.utils.before_app_uninstall"
-# after_app_uninstall = "nextai.utils.after_app_uninstall"
+# before_app_uninstall = "next_ai.utils.before_app_uninstall"
+# after_app_uninstall = "next_ai.utils.after_app_uninstall"
 
 # Desk Notifications
 # ------------------
 # See frappe.core.notifications.get_notification_config
 
-# notification_config = "nextai.notifications.get_notification_config"
+# notification_config = "next_ai.notifications.get_notification_config"
 
 # Permissions
 # -----------
@@ -133,39 +133,39 @@ app_include_js = "/assets/nextai/js/nextai.js"
 
 # scheduler_events = {
 # 	"all": [
-# 		"nextai.tasks.all"
+# 		"next_ai.tasks.all"
 # 	],
 # 	"daily": [
-# 		"nextai.tasks.daily"
+# 		"next_ai.tasks.daily"
 # 	],
 # 	"hourly": [
-# 		"nextai.tasks.hourly"
+# 		"next_ai.tasks.hourly"
 # 	],
 # 	"weekly": [
-# 		"nextai.tasks.weekly"
+# 		"next_ai.tasks.weekly"
 # 	],
 # 	"monthly": [
-# 		"nextai.tasks.monthly"
+# 		"next_ai.tasks.monthly"
 # 	],
 # }
 
 # Testing
 # -------
 
-# before_tests = "nextai.install.before_tests"
+# before_tests = "next_ai.install.before_tests"
 
 # Overriding Methods
 # ------------------------------
 #
 # override_whitelisted_methods = {
-# 	"frappe.desk.doctype.event.event.get_events": "nextai.event.get_events"
+# 	"frappe.desk.doctype.event.event.get_events": "next_ai.event.get_events"
 # }
 #
 # each overriding function accepts a `data` argument;
 # generated from the base implementation of the doctype dashboard,
 # along with any modifications made in other Frappe apps
 # override_doctype_dashboards = {
-# 	"Task": "nextai.task.get_dashboard_data"
+# 	"Task": "next_ai.task.get_dashboard_data"
 # }
 
 # exempt linked doctypes from being automatically cancelled
@@ -179,13 +179,13 @@ app_include_js = "/assets/nextai/js/nextai.js"
 
 # Request Events
 # ----------------
-# before_request = ["nextai.utils.before_request"]
-# after_request = ["nextai.utils.after_request"]
+# before_request = ["next_ai.utils.before_request"]
+# after_request = ["next_ai.utils.after_request"]
 
 # Job Events
 # ----------
-# before_job = ["nextai.utils.before_job"]
-# after_job = ["nextai.utils.after_job"]
+# before_job = ["next_ai.utils.before_job"]
+# after_job = ["next_ai.utils.after_job"]
 
 # User Data Protection
 # --------------------
@@ -215,5 +215,5 @@ app_include_js = "/assets/nextai/js/nextai.js"
 # --------------------------------
 
 # auth_hooks = [
-# 	"nextai.auth.validate"
+# 	"next_ai.auth.validate"
 # ]

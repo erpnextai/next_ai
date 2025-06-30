@@ -183,7 +183,7 @@ function nextAIFeature(){
 function makeApiCall(data) {
     return new Promise((resolve, reject) => {
         frappe.call({
-            method: 'nextai.ai.get_ai_response',
+            method: 'next_ai.ai.get_ai_response',
             args: data,
             freeze:true, freeze_message:__("Connecting with NextAI"),
             callback: function (r) {
