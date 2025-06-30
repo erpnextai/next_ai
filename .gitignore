@@ -3,5 +3,5 @@
 *.egg-info
 *.swp
 tags
-nextai/docs/current
+next_ai/docs/current
 node_modules/

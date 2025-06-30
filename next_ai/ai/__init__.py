@@ -4,8 +4,8 @@ import time
 from langchain_google_genai import ChatGoogleGenerativeAI
 from google.api_core.exceptions import ResourceExhausted
 from frappe import _
-from nextai.ai.prompt import PROMPTS
-from nextai.ai.structured_output import NEXTAIBaseModel
+from next_ai.ai.prompt import PROMPTS
+from next_ai.ai.structured_output import NEXTAIBaseModel
 
 
 @frappe.whitelist(allow_guest=True)

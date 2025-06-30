@@ -1,9 +1,9 @@
 [project]
-name = "nextai"
+name = "next_ai"
 authors = [
-    { name = "antonykumar15898@gmail.com", email = "antonykumar@gmail.com"}
+    { name = "Antony Praveenkumar Moses", email = "antonykumar15898@gmail.com"}
 ]
-description = "AI Solution"
+description = "Next AI is an AI-enabled application designed for seamless content generation and enhancement. With the power of advanced language models, it helps users create high-quality content and intelligently improve existing text, making writing faster, smarter, and more effective."
 requires-python = ">=3.10"
 readme = "README.md"
 dynamic = ["version"]
