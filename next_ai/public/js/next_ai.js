@@ -2,22 +2,23 @@ frappe.provide("nextai.cache");
 
 $(document).ready(function () {
     setTimeout(()=>{
-        frappe.after_ajax(() => {
-            if ((
-                    frappe.user.has_role("NextAI User") ||
-                    frappe.session.user === "Administrator" ||
-                    frappe.user.has_role("System Manager")
-                ) && 
+        if (
+            (
+                frappe.user.has_role("NextAI User") ||
+                frappe.session.user === "Administrator" ||
+                frappe.user.has_role("System Manager")
+            ) && 
+            (
+                !cur_frm || !cur_frm.doc ||  
                 (
                     cur_frm.doc.doctype !== 'DocType' &&
                     cur_frm.doc.doctype !== 'Customize Form'
                 )
-            ) {
-                nextAIFeature();
-            }
-        })
-    }, 1000)
-
+            )
+        ) {
+            nextAIFeature();
+        }
+    }, 2000)
 });
 
 
