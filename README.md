@@ -53,7 +53,7 @@ NextAI currently supports the following field types:
 
 If you have any questions or require support, please feel free to raise a ticket using the link below. Our team will be happy to assist you.
 
-👉 [NextAI Support Ticket](https://docs.google.com/forms/d/e/1FAIpQLSckkUggY_48O18j2EokqUdY2GkrWgyvx6nfLzWkK8D3S-8qVQ/viewform?usp=sharing&ouid=111838917309496655827)
+👉 [NextAI Support Ticket](https://www.erpnextai.in/support)
 
 
 ## Future Updates
