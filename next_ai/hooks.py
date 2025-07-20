@@ -6,7 +6,13 @@ app_email = "antonykumar15898@gmail.com"
 app_license = "Custom Non-Commercial License"
 
 fixtures = [
-    {"dt": "NextAI Model Info"}
+    {"dt": "NextAI Model Info"},
+    {
+        "dt": "Role",
+        "filters": [
+            ["name", "in", ["NextAI User"]]
+        ]
+    }
 ]
 
 # Includes in <head>
