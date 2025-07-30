@@ -2,7 +2,7 @@
 
 ---
 
-## **How to Get the Gemini API Key**
+## [**How to Get the Gemini API Key**](https://www.erpnextai.in/video)
 
 ### **Step 1**
 Go to [Google AI Studio (Gemini)](https://aistudio.google.com/) and click **Get API Key**.
