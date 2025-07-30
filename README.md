@@ -63,4 +63,3 @@ If you have any questions or require support, please feel free to raise a ticket
 
 - Currently, we support **Gemini**. In future releases, we plan to add support for **ChatGPT** and **GROQ**.
 - We are also planning to introduce **AI-enhanced personal chat** within the system.
-
