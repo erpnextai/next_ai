@@ -23,6 +23,9 @@ NextAI supports the following Frappe versions:
 
 ## How to Set Up:
 
+* [How to configure the app? - Video](https://www.erpnextai.in/video)
+* [How to setup?](next_ai/docs/how-to-setup.md)
+
 1. There are two main doctypes you need to review:
 
    * **`NextAI Model Info`** – The data for this doctype is fetched from fixtures. You simply need to run the migration.
