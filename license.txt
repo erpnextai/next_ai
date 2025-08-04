@@ -1,6 +1,6 @@
 Custom Non-Commercial License
 
-Copyright (c) 2025 Antony Praveenkumar Moses
+Copyright (c) 2025 NextAI
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to use,
@@ -22,6 +22,6 @@ copy, modify, and distribute the Software solely for personal, non-commercial pu
    The Software is provided "as is", without warranty of any kind, express or implied, including but not limited to the warranties of merchantability, fitness for a particular purpose, and noninfringement.
 
 6. Commercial Licensing:  
-   For commercial licensing inquiries, please contact: antony15898@gmail.com
+   For commercial licensing inquiries, please contact: erpnextai@gmail.com
 
 Any violation of these terms will result in the automatic termination of this license.
