@@ -1,0 +1,143 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "format:PROMPT-{YYYY}-{MM}-{DD}-{######}",
+ "creation": "2025-08-11 21:18:06.483315",
+ "default_view": "List",
+ "description": "\nMyTest Prompt is for the testing",
+ "doctype": "DocType",
+ "documentation": "https://www.erpnextai.in/video",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "ref_doctype",
+  "column_break_lfkft",
+  "field_lable",
+  "field_name",
+  "field_type",
+  "section_break_gur28",
+  "enable",
+  "column_break_1tipb",
+  "is_user_specific",
+  "user",
+  "section_break_soehn",
+  "generate_prompt_template",
+  "prompt"
+ ],
+ "fields": [
+  {
+   "fieldname": "ref_doctype",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "DocType",
+   "options": "DocType",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_lfkft",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "field_lable",
+   "fieldtype": "Autocomplete",
+   "in_list_view": 1,
+   "label": "Field Lable",
+   "reqd": 1
+  },
+  {
+   "fieldname": "field_name",
+   "fieldtype": "Data",
+   "label": "Field Name"
+  },
+  {
+   "fieldname": "field_type",
+   "fieldtype": "Data",
+   "label": "Field Type"
+  },
+  {
+   "fieldname": "section_break_gur28",
+   "fieldtype": "Section Break"
+  },
+  {
+   "default": "1",
+   "description": "If disabled, the default prompt will be used. If enabled, a specific prompt will be applied.",
+   "fieldname": "enable",
+   "fieldtype": "Check",
+   "label": "Enable"
+  },
+  {
+   "fieldname": "column_break_1tipb",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "1",
+   "description": "Only System Managers can modify this field. If unchecked, this prompt will be used as the default for the entire organization.",
+   "documentation_url": "https://www.erpnextai.in/video",
+   "fieldname": "is_user_specific",
+   "fieldtype": "Check",
+   "label": "Is User Specific"
+  },
+  {
+   "fieldname": "user",
+   "fieldtype": "Link",
+   "label": "User",
+   "options": "User"
+  },
+  {
+   "fieldname": "section_break_soehn",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "generate_prompt_template",
+   "fieldtype": "Button",
+   "label": "Generate Prompt Template"
+  },
+  {
+   "description": "Note: After updating the prompt, make sure to save and verify the respective Doctype field to ensure it works for your use case.",
+   "fieldname": "prompt",
+   "fieldtype": "Markdown Editor",
+   "in_list_view": 1,
+   "label": "Prompt",
+   "reqd": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2025-08-11 22:36:56.956714",
+ "modified_by": "Administrator",
+ "module": "Next AI",
+ "name": "NextAI Prompt",
+ "name_case": "UPPER CASE",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "NextAI User",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}
