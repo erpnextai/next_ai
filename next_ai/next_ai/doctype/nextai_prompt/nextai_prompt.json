@@ -12,7 +12,7 @@
  "field_order": [
   "ref_doctype",
   "column_break_lfkft",
-  "field_lable",
+  "field_label",
   "field_name",
   "field_type",
   "section_break_gur28",
@@ -38,21 +38,16 @@
    "fieldtype": "Column Break"
   },
   {
-   "fieldname": "field_lable",
-   "fieldtype": "Autocomplete",
-   "in_list_view": 1,
-   "label": "Field Lable",
-   "reqd": 1
-  },
-  {
    "fieldname": "field_name",
    "fieldtype": "Data",
-   "label": "Field Name"
+   "label": "Field Name",
+   "read_only": 1
   },
   {
    "fieldname": "field_type",
    "fieldtype": "Data",
-   "label": "Field Type"
+   "label": "Field Type",
+   "read_only": 1
   },
   {
    "fieldname": "section_break_gur28",
@@ -75,7 +70,8 @@
    "documentation_url": "https://www.erpnextai.in/video",
    "fieldname": "is_user_specific",
    "fieldtype": "Check",
-   "label": "Is User Specific"
+   "label": "Is User Specific",
+   "read_only": 1
   },
   {
    "fieldname": "user",
@@ -99,11 +95,18 @@
    "in_list_view": 1,
    "label": "Prompt",
    "reqd": 1
+  },
+  {
+   "fieldname": "field_label",
+   "fieldtype": "Autocomplete",
+   "in_list_view": 1,
+   "label": "Field Label",
+   "reqd": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-08-11 22:36:56.956714",
+ "modified": "2025-08-17 13:36:31.105186",
  "modified_by": "Administrator",
  "module": "Next AI",
  "name": "NextAI Prompt",
