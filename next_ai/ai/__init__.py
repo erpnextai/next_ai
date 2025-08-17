@@ -8,10 +8,6 @@ from next_ai.ai.prompt import PROMPTS
 from next_ai.ai.structured_output import NEXTAIBaseModel
 
 
-@frappe.whitelist(allow_guest=True)
-def get_field_info(**kwargs):
-    return {"status": "success"}
-
 
 @frappe.whitelist(allow_guest=True)
 def test_gemini(**kwargs):
@@ -42,57 +38,9 @@ def test_gemini(**kwargs):
 
 @frappe.whitelist(methods=["POST"])
 def get_ai_response(**kwargs):
-    # prompt = PROMPTS[kwargs['type']].format(input=kwargs['value'])
     nextai_llm = NextAILLM(template=PROMPTS[kwargs['type']], user_input=kwargs['value'], field_info=kwargs)
     message = nextai_llm.get_llm_response()
     return {"status_code":200, "status": "sucess", "message": message}
-
-
-@frappe.whitelist(methods=["POST"])
-def get_ai_response_deprecated(**kwargs):
-    llm, nextai_settings = get_llm()
-    if not llm:
-        return {"status": "error", "message": "LLM not configured properly"}
-    if llm:
-        model_info = frappe.db.get_list(
-            'NextAI Model Info',
-            fields=['*'],
-            filters={
-                'name': nextai_settings.model_name
-            }
-        )
-        if not model_info:
-            return {"status_code":400, "status": "error", "message": "Model Info found in NextAI Model Info"}
-        model_info = model_info[0]
-        delay = get_delay_info(model_info, nextai_settings.is_subscription, nextai_settings.is_free)
-        time.sleep(delay)
-        so_llm = llm.with_structured_output(NEXTAIBaseModel)
-        prompt = PROMPTS[kwargs['type']].format(input=kwargs['value'])
-        ai_msg = so_llm.invoke(prompt)
-    return {"status_code":200, "status": "sucess", "message": ai_msg.response}
-
-
-def get_llm():
-    doc = frappe.get_doc('NextAI Settings')
-    llm = None
-
-    nextai_llm = NextAILLM()
-    llm = nextai_llm.get_llm()
-    try:
-        if doc.platform == 'Gemini':
-            os.environ['GOOGLE_API_KEY'] = doc.get_password("api_key")
-            # llm = ChatGoogleGenerativeAI(
-            #     model=doc.model_name,
-            #     temperature=0,
-            #     max_tokens=None,
-            #     timeout=None,
-            #     max_retries=2,
-            # )
-            llm = ChatGoogleGenerativeAI(model=doc.model_name)
-    except Exception as e:
-        frappe.log_error(frappe.get_traceback(), "Error in get_llm")
-        frappe.throw(_("Error in getting LLM: {0}").format(str(e)))
-    return llm, doc
 
 
 def get_delay_info(model_info, is_subscription, is_free):
