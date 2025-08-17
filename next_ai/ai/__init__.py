@@ -8,10 +8,6 @@ from next_ai.ai.prompt import PROMPTS
 from next_ai.ai.structured_output import NEXTAIBaseModel
 
 
-@frappe.whitelist(allow_guest=True)
-def get_field_info(**kwargs):
-    return {"status": "success"}
-
 
 @frappe.whitelist(allow_guest=True)
 def test_gemini(**kwargs):
@@ -42,57 +38,9 @@ def test_gemini(**kwargs):
 
 @frappe.whitelist(methods=["POST"])
 def get_ai_response(**kwargs):
-    prompt = PROMPTS[kwargs['type']].format(input=kwargs['value'])
-    nextai_llm = NextAILLM(prompt)
-    message = nextai_llm.get_llm_response(prompt)
+    nextai_llm = NextAILLM(template=PROMPTS[kwargs['type']], user_input=kwargs['value'], field_info=kwargs)
+    message = nextai_llm.get_llm_response()
     return {"status_code":200, "status": "sucess", "message": message}
-
-
-@frappe.whitelist(methods=["POST"])
-def get_ai_response_deprecated(**kwargs):
-    llm, nextai_settings = get_llm()
-    if not llm:
-        return {"status": "error", "message": "LLM not configured properly"}
-    if llm:
-        model_info = frappe.db.get_list(
-            'NextAI Model Info',
-            fields=['*'],
-            filters={
-                'name': nextai_settings.model_name
-            }
-        )
-        if not model_info:
-            return {"status_code":400, "status": "error", "message": "Model Info found in NextAI Model Info"}
-        model_info = model_info[0]
-        delay = get_delay_info(model_info, nextai_settings.is_subscription, nextai_settings.is_free)
-        time.sleep(delay)
-        so_llm = llm.with_structured_output(NEXTAIBaseModel)
-        prompt = PROMPTS[kwargs['type']].format(input=kwargs['value'])
-        ai_msg = so_llm.invoke(prompt)
-    return {"status_code":200, "status": "sucess", "message": ai_msg.response}
-
-
-def get_llm():
-    doc = frappe.get_doc('NextAI Settings')
-    llm = None
-
-    nextai_llm = NextAILLM()
-    llm = nextai_llm.get_llm()
-    try:
-        if doc.platform == 'Gemini':
-            os.environ['GOOGLE_API_KEY'] = doc.get_password("api_key")
-            # llm = ChatGoogleGenerativeAI(
-            #     model=doc.model_name,
-            #     temperature=0,
-            #     max_tokens=None,
-            #     timeout=None,
-            #     max_retries=2,
-            # )
-            llm = ChatGoogleGenerativeAI(model=doc.model_name)
-    except Exception as e:
-        frappe.log_error(frappe.get_traceback(), "Error in get_llm")
-        frappe.throw(_("Error in getting LLM: {0}").format(str(e)))
-    return llm, doc
 
 
 def get_delay_info(model_info, is_subscription, is_free):
@@ -113,8 +61,13 @@ def get_delay_info(model_info, is_subscription, is_free):
 
 
 class NextAILLM:
-    def __init__(self, prompt: str = None):
-        self.prompt = prompt
+    def __init__(self, template: str = None, user_input: str = None, field_info: dict = None):
+
+        self.template = template
+        self.user_input = user_input
+        self.field_info = field_info
+
+        self.prompt = self.get_prompt() or template.format(input=user_input)
         self.validate_token()
 
         self.nextai_settings = self.get_nextai_settings()
@@ -140,7 +93,46 @@ class NextAILLM:
             frappe.throw(_("Platform is not set in NextAI Settings. Please configure the platform."))
         if not self.nextai_settings.get_password("api_key"):
             frappe.throw(_("API Key is not set in NextAI Settings. Please configure the API Key."))
+    
+    def get_prompt(self):
+        
+        if self.field_info.get('doctype'):
+            query = f"""
+            SELECT
+                ref_doctype, field_name, field_type, prompt, is_user_specific
+            FROM
+                `tabNextAI Prompt`
+            WHERE
+                ref_doctype='{self.field_info.get('doctype')}'
+                AND field_name='{self.field_info.get('key')}'
+                AND user='{frappe.session.user}'
+                AND enable=1
+                AND is_user_specific=1
+            
+            UNION ALL
 
+            SELECT
+                ref_doctype, field_name, field_type, prompt, is_user_specific
+            FROM
+                `tabNextAI Prompt`
+            WHERE
+                ref_doctype='{self.field_info.get('doctype')}'
+                AND field_name='{self.field_info.get('key')}'
+                AND enable=1
+                AND is_user_specific=0
+            """
+            prompt_list = frappe.db.sql(query, as_dict=True)
+            user_prompt = global_prompt = None 
+            for prompt in prompt_list:
+                if prompt['is_user_specific']:
+                    user_prompt = prompt['prompt']
+                else:
+                    global_prompt = prompt['prompt']
+            if user_prompt:
+                return user_prompt.format(input=self.user_input)
+            elif global_prompt:
+                return global_prompt.format(input=self.user_input)
+        
     def get_nextai_settings(self):
         nextai_settings = frappe.get_doc('NextAI Settings')
         return nextai_settings
@@ -186,10 +178,10 @@ class NextAILLM:
                 return model['model_name']
         return self.model_info[0]['model_name']
     
-    def get_llm_response(self, prompt: str, model_name: str = None) -> str:
+    def get_llm_response(self, model_name: str = None) -> str:
         try:
             so_llm = self.get_structured_output_llm(model_name=model_name)
-            ai_msg = so_llm.invoke(prompt)
+            ai_msg = so_llm.invoke(self.prompt)
             return ai_msg.response
         except ResourceExhausted as e:
             frappe.log_error(frappe.get_traceback(), f"RPM limit reached {self.current_model} in NextAILLM.get_llm_response")
