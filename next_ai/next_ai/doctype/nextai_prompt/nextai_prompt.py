@@ -2,12 +2,82 @@
 # For license information, please see license.txt
 
 import frappe
+import re
+from frappe import _
 from frappe.model.document import Document
+from frappe.utils import get_link_to_form
 
 from next_ai.ai.prompt import PROMPTS
 
 class NextAIPrompt(Document):
-	pass
+	def validate(self):
+		if self.enable:
+			self.validate_user_specific()
+			self.validate_duplicate()
+		self.validate_prompt_input()
+
+	def validate_duplicate(self):
+		"""
+		1. Validation for saving duplicates 
+		→ based on doctype and the fieldname. 
+		Only one record should exist.
+		"""
+		duplicate = frappe.db.get_value(
+			"NextAI Prompt",
+			{
+				"ref_doctype": self.ref_doctype,
+				"field_name": self.field_name,
+				"is_user_specific": self.is_user_specific,
+				"user": self.user,
+				"enable": 1,
+				"name": ["!=", self.name]   # exclude self while editing
+			},
+			"name"
+		)
+		if duplicate:
+			link = get_link_to_form("NextAI Prompt", duplicate)
+			frappe.throw(
+				_("Duplicate Entry: A prompt already exists for DocType <b>{0}</b> and Field <b>{1}</b>. {2}")
+				.format(self.ref_doctype, self.field_name, link)
+			)
+
+
+	def validate_user_specific(self):
+		"""
+		2. Only one record can be unchecked for user specific 
+		→ based on doctype and fieldname.
+		"""
+		if not self.is_user_specific:  # unchecked
+			other = frappe.db.get_value(
+				"NextAI Prompt",
+				{
+					"ref_doctype": self.ref_doctype,
+					"field_name": self.field_name,
+					"is_user_specific": 0,
+					"enable": 1,
+					"name": ["!=", self.name]
+				},
+				"name"
+			)
+			if other:
+				link = get_link_to_form("NextAI Prompt", other)
+				frappe.throw(
+					_("Only one <b>Organization-wide</b> prompt is allowed for DocType <b>{0}</b> and Field <b>{1}</b>. {2}")
+					.format(self.ref_doctype, self.field_name, link)
+				)
+
+	def validate_prompt_input(self):
+		"""
+		3. {Input} string must appear exactly once in the prompt.
+		"""
+		if self.prompt:
+			matches = re.findall(r"\{input\}", self.prompt, flags=re.IGNORECASE)
+			count = len(matches)
+			if count == 0:
+				frappe.throw(_("The prompt must contain <b>{{Input}}</b> exactly once."))
+			elif count > 1:
+				frappe.throw(_("The prompt contains <b>{{Input}}</b> {0} times. Only once is allowed.").format(count))
+
 
 
 @frappe.whitelist(methods=['POST'])
@@ -93,3 +163,28 @@ def filter_user_field(doctype, txt, searchfield, start, page_len, filters):
 def generate_prompt(field_type: str):
 	prompt_template = PROMPTS.get(field_type, '')
 	return prompt_template
+
+
+@frappe.whitelist()
+def validate_enable_check(ref_doctype, field_name, user, is_user_specific):
+	duplicate = frappe.db.get_value(
+		"NextAI Prompt",
+		{
+			"ref_doctype": ref_doctype,
+			"field_name": field_name,
+			"is_user_specific": is_user_specific,
+			"user": user if user else None,
+			"enable": 1,
+		},
+		"name"
+	)
+	if duplicate:
+		link = get_link_to_form("NextAI Prompt", duplicate)
+		frappe.msgprint(
+			_("Duplicate Entry: A prompt already exists for DocType <b>{0}</b> and Field <b>{1}</b>. {2}")
+			.format(ref_doctype, field_name, link)
+		)
+
+		return False
+	
+	return True
