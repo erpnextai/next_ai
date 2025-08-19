@@ -4,6 +4,14 @@ var fieldlabelOptions;
 
 frappe.ui.form.on('NextAI Prompt', {
 	refresh: function(frm) {
+		
+		frm.page.set_secondary_action(__('Video'), function() {
+			window.open('https://www.erpnextai.in/video', '_blank');
+		});
+		frm.page.btn_secondary.addClass('btn-primary');
+        
+		frm.fields_dict['generate_prompt_template'].$input.addClass('btn-primary');
+
 		if (frappe.user_roles.includes('System Manager')){
 			frm.set_df_property('is_user_specific', 'read_only', 0)
 		}
@@ -59,6 +67,25 @@ frappe.ui.form.on('NextAI Prompt', {
 				}
 			}
 		})
+	},
+	enable: function(frm){
+		if (frm.doc.enable == 1 && frm.doc.ref_doctype && frm.doc.field_label){
+			frappe.call({
+				method: "next_ai.next_ai.doctype.nextai_prompt.nextai_prompt.validate_enable_check",
+				args: {
+					ref_doctype: frm.doc.ref_doctype,
+					field_name: frm.doc.field_name,
+					user: frm.doc.user ? frm.doc.user : "",
+					is_user_specific: frm.doc.is_user_specific
+				},
+				callback: function(r){
+					if (!r.message){
+						frm.set_value("enable", 0);
+                    	frm.refresh_field("enable");
+					}
+				}
+			})
+		}
 	}
 });
 
