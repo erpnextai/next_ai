@@ -16,6 +16,10 @@ frappe.ui.form.on('NextAI Prompt', {
 			frm.set_df_property('is_user_specific', 'read_only', 0)
 		}
 
+		if (! frm.doc.user){
+			frm.set_value('user', frappe.session.user)
+		}
+
 		if (frm.doc.ref_doctype){
 			setFieldlabelOptions(frm)
 		}
