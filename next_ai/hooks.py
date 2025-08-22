@@ -106,9 +106,10 @@ app_include_js = "/assets/next_ai/js/next_ai.js"
 # -----------
 # Permissions evaluated in scripted ways
 
-# permission_query_conditions = {
-# 	"Event": "frappe.desk.doctype.event.event.get_permission_query_conditions",
-# }
+permission_query_conditions = {
+	"NextAI Prompt": "next_ai.next_ai.doctype.nextai_prompt.nextai_prompt.get_permission_query_conditions"
+	# "Event": "frappe.desk.doctype.event.event.get_permission_query_conditions",
+}
 #
 # has_permission = {
 # 	"Event": "frappe.desk.doctype.event.event.has_permission",

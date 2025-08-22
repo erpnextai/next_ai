@@ -74,9 +74,9 @@ class NextAIPrompt(Document):
 			matches = re.findall(r"\{input\}", self.prompt, flags=re.IGNORECASE)
 			count = len(matches)
 			if count == 0:
-				frappe.throw(_("The prompt must contain <b>{{Input}}</b> exactly once."))
+				frappe.throw(_("The prompt must contain <b>{Input}</b> exactly once."))
 			elif count > 1:
-				frappe.throw(_("The prompt contains <b>{{Input}}</b> {0} times. Only once is allowed.").format(count))
+				frappe.throw(_("The prompt contains <b>{input}</b> {count} times. Only once is allowed.".format(count=count, input="{Input}")))
 
 
 
@@ -188,3 +188,15 @@ def validate_enable_check(ref_doctype, field_name, user, is_user_specific):
 		return False
 	
 	return True
+
+
+def get_permission_query_conditions(user):
+    if not user:
+        user = frappe.session.user
+
+    # Allow System Managers to see all
+    if "System Manager" in frappe.get_roles(user):
+        return None
+
+    # Restrict other users to only see records they created
+    return f"`tabNextAI Prompt`.owner = '{user}' OR `tabNextAI Prompt`.user = '{user}'"
