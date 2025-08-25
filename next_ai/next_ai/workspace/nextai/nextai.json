@@ -1,8 +1,13 @@
 {
  "charts": [],
- "content": "[{\"id\":\"JuyzqjwUUi\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">NextAI</span>\",\"col\":12}},{\"id\":\"u9yajttwji\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"NextAI Settings\",\"col\":3}},{\"id\":\"1zoRFA1Tou\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"NextAI Model Info\",\"col\":3}},{\"id\":\"BvnXg869AG\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"NextAI Prompt\",\"col\":3}}]",
+ "content": "[{\"id\":\"JuyzqjwUUi\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">NextAI</span>\",\"col\":12}},{\"id\":\"IA-NxXsb1r\",\"type\":\"custom_block\",\"data\":{\"custom_block_name\":\"NextAI Header\",\"col\":12}},{\"id\":\"u9yajttwji\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"NextAI Settings\",\"col\":3}},{\"id\":\"1zoRFA1Tou\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"NextAI Model Info\",\"col\":3}},{\"id\":\"BvnXg869AG\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"NextAI Prompt\",\"col\":3}}]",
  "creation": "2025-08-25 22:25:41.753873",
- "custom_blocks": [],
+ "custom_blocks": [
+  {
+   "custom_block_name": "NextAI Header",
+   "label": "NextAI Header"
+  }
+ ],
  "docstatus": 0,
  "doctype": "Workspace",
  "for_user": "",
@@ -12,7 +17,7 @@
  "is_hidden": 0,
  "label": "NextAI",
  "links": [],
- "modified": "2025-08-25 22:46:26.982907",
+ "modified": "2025-08-26 00:11:47.781602",
  "modified_by": "Administrator",
  "module": "Next AI",
  "name": "NextAI",
