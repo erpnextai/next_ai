@@ -12,6 +12,12 @@ fixtures = [
         "filters": [
             ["name", "in", ["NextAI User"]]
         ]
+    },
+    {
+        "dt": "Custom HTML Block",
+        "filters": [
+            ["name", "in", ["NextAI Header"]]
+        ]
     }
 ]
 
