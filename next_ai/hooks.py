@@ -12,12 +12,6 @@ fixtures = [
         "filters": [
             ["name", "in", ["NextAI User"]]
         ]
-    },
-    {
-        "dt": "Workspace Link",
-        "filters": [
-            ["parent", "in", ["Home"]]
-        ]
     }
 ]
 
