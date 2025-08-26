@@ -1,0 +1,13 @@
+[
+ {
+  "docstatus": 0,
+  "doctype": "Custom HTML Block",
+  "html": "<div class=\"nextai-card\">\n  <h3>\n    <i class=\"fas fa-robot\"></i> Next AI: Bringing AI Power to ERPNext\n  </h3>\n  <p>\n    Next AI is a smart extension of ERPNext & Frappe, designed to enable AI-driven capabilities \n    across the ERP ecosystem. It enhances user productivity with intelligent content generation, \n    grammar correction, and contextual content improvement.\n  </p>\n  <p>\n    By embedding AI directly into the ERPNext experience, Next AI aims to streamline communication \n    and automate routine writing tasks\u2014making ERP smarter, faster, and more efficient for everyday business use.\n  </p>\n  <div class=\"nextai-links\">\n    <a href=\"https://www.erpnextai.in/\" target=\"_blank\">\n      <img src=\"/assets/next_ai/icon/captive_portal.svg\" class=\"icon icon-site\"> Official Site\n    </a>\n    <a href=\"https://www.erpnextai.in/video\" target=\"_blank\">\n      <img src=\"/assets/next_ai/icon/play_circle.svg\" class=\"icon icon-video\"> Watch Tutorial / Demo\n    </a>\n  </div>\n</div>",
+  "modified": "2025-08-26 00:11:16.501024",
+  "name": "NextAI Header",
+  "private": 0,
+  "roles": [],
+  "script": "",
+  "style": ".nextai-card {\n  background: linear-gradient(135deg, #f8faff, #eef2ff);\n  border: 1px solid #e0e7ff;\n  border-radius: 12px;\n  padding: 20px;\n  box-shadow: 0 4px 12px rgba(0,0,0,0.08);\n  transition: transform 0.3s ease, box-shadow 0.3s ease;\n}\n.nextai-card:hover {\n  transform: translateY(-5px);\n  box-shadow: 0 10px 20px rgba(99, 102, 241, 0.3);\n}\n.nextai-card h3 {\n  font-size: 1.2rem;\n  font-weight: 700;\n  margin-bottom: 12px;\n  color: #4338ca;\n}\n.nextai-card h3 i {\n  margin-right: 8px;\n  color: #6366f1;\n}\n.nextai-card p {\n  color: #374151;\n  margin-bottom: 12px;\n  line-height: 1.5;\n}\n.nextai-links {\n  display: flex;\n  gap: 12px;\n  margin-top: 10px;\n}\n.nextai-links a {\n  display: inline-flex;\n  align-items: center;\n  gap: 8px;\n  padding: 8px 14px;\n  border-radius: 8px;\n  background: #e0e7ff;\n  color: #1e3a8a;\n  font-weight: 600;\n  text-decoration: none;\n  transition: all 0.3s ease;\n}\n.nextai-links a:hover {\n  background: #6366f1;\n  color: white;\n}\n.nextai-links a:hover .icon {\n  filter: brightness(0) invert(1); /* turn icons white when hovered */\n}\n\n/* Icons */\n.icon {\n  width: 18px;\n  height: 18px;\n  transition: filter 0.3s ease;\n}\n\n/* Match brand colors */\n.icon-site {\n  filter: invert(30%) sepia(100%) saturate(1200%) hue-rotate(220deg) brightness(90%) contrast(95%);\n}\n.icon-video {\n  filter: invert(40%) sepia(80%) saturate(2500%) hue-rotate(340deg) brightness(95%) contrast(100%);\n}\n"
+ }
+]
