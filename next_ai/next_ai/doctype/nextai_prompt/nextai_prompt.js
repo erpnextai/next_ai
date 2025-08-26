@@ -109,13 +109,15 @@ const setFieldlabelOptions = (frm) => {
 		args: {ref_doctype: frm.doc.ref_doctype},
 		async: false,
 		callback: function(r) {
-			console.log(r.message);
 			if (r.message.length > 0) {
 				fieldlabelOptions = r.message
 				const labelOptions = r.message.map((item) => ({ value: item.label, label: item.label }));
 				frm.fields_dict.field_label.set_data(labelOptions);
 			} else {
 				frappe.msgprint(__("No fields found for the selected doctype."));
+				frm.set_value("field_label", null)
+				const labelOptions = []
+				frm.fields_dict.field_label.set_data(labelOptions);
 			}
 		}
 	})
