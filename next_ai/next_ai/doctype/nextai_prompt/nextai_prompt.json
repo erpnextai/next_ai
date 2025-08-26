@@ -77,7 +77,8 @@
    "fieldname": "user",
    "fieldtype": "Link",
    "label": "User",
-   "options": "User"
+   "options": "User",
+   "reqd": 1
   },
   {
    "fieldname": "section_break_soehn",
@@ -106,7 +107,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-08-17 13:36:31.105186",
+ "modified": "2025-08-27 00:07:09.105150",
  "modified_by": "Administrator",
  "module": "Next AI",
  "name": "NextAI Prompt",

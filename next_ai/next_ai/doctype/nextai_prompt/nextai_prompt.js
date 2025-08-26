@@ -33,6 +33,9 @@ frappe.ui.form.on('NextAI Prompt', {
 	ref_doctype: function(frm) {
 		if (frm.doc.ref_doctype) {
 			setFieldlabelOptions(frm);
+			frm.set_value('field_name', null);
+			frm.set_value('field_type', null);
+			frm.set_value('field_label', null);
 		}
 	},
 	field_label: function(frm) {
@@ -40,6 +43,7 @@ frappe.ui.form.on('NextAI Prompt', {
 			if (data['label'] == frm.doc.field_label){
 				frm.set_value('field_name', data['fieldname'])
 				frm.set_value('field_type', data['fieldtype'])
+				frm.set_value('prompt', null)
 			}
 		}
 	},
@@ -48,6 +52,8 @@ frappe.ui.form.on('NextAI Prompt', {
 			frappe.confirm("⚠️ Please note: If you uncheck this field, it will affect the <b> prompt for the entire organization</b>. 🏢<br>👉 Kindly make sure you are fully aware of the impact before making any changes. ✨",
 				() => {
 					// action to perform if Yes is selected
+					frm.set_df_property('user', 'reqd', 0)
+					frm.set_df_property('user', 'hidden', 1)
 				}, () => {
 					// action to perform if No is selected
 					frm.doc.is_user_specific = 1
@@ -55,6 +61,8 @@ frappe.ui.form.on('NextAI Prompt', {
 				})
 		}else{
 			frappe.msgprint("This will work only for the selected user")
+			frm.set_df_property('user', 'reqd', 1)
+			frm.set_df_property('user', 'hidden', 0)
 		}
 	},
 	generate_prompt_template: function(frm){
