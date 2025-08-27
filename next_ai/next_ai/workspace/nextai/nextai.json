@@ -1,0 +1,56 @@
+{
+ "charts": [],
+ "content": "[{\"id\":\"JuyzqjwUUi\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">NextAI</span>\",\"col\":12}},{\"id\":\"IA-NxXsb1r\",\"type\":\"custom_block\",\"data\":{\"custom_block_name\":\"NextAI Header\",\"col\":12}},{\"id\":\"u9yajttwji\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"NextAI Settings\",\"col\":3}},{\"id\":\"1zoRFA1Tou\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"NextAI Model Info\",\"col\":3}},{\"id\":\"BvnXg869AG\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"NextAI Prompt\",\"col\":3}}]",
+ "creation": "2025-08-25 22:25:41.753873",
+ "custom_blocks": [
+  {
+   "custom_block_name": "NextAI Header",
+   "label": "NextAI Header"
+  }
+ ],
+ "docstatus": 0,
+ "doctype": "Workspace",
+ "for_user": "",
+ "hide_custom": 0,
+ "icon": "branch",
+ "idx": 0,
+ "is_hidden": 0,
+ "label": "NextAI",
+ "links": [],
+ "modified": "2025-08-26 00:11:47.781602",
+ "modified_by": "Administrator",
+ "module": "Next AI",
+ "name": "NextAI",
+ "number_cards": [],
+ "owner": "Administrator",
+ "parent_page": "",
+ "public": 1,
+ "quick_lists": [],
+ "roles": [],
+ "sequence_id": 2.0,
+ "shortcuts": [
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "NextAI Settings",
+   "link_to": "NextAI Settings",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "NextAI Model Info",
+   "link_to": "NextAI Model Info",
+   "stats_filter": "[]",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "NextAI Prompt",
+   "link_to": "NextAI Prompt",
+   "type": "DocType"
+  }
+ ],
+ "title": "NextAI"
+}
