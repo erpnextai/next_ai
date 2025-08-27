@@ -6,7 +6,7 @@ frappe.ui.form.on('NextAI Prompt', {
 	refresh: function(frm) {
 		
 		frm.page.set_secondary_action(__('Video'), function() {
-			window.open('https://www.erpnextai.in/video', '_blank');
+			window.open('https://www.erpnextai.in/video#h.xnfsg3y7wo22', '_blank');
 		});
 		frm.page.btn_secondary.addClass('btn-primary');
         
