@@ -1,4 +1,3 @@
-
 name: CI
 
 on:
@@ -25,27 +24,29 @@ jobs:
           MYSQL_ROOT_PASSWORD: root
         ports:
           - 3306:3306
-        options: --health-cmd="mysqladmin ping" --health-interval=5s --health-timeout=2s --health-retries=3
+        options: >-
+          --health-cmd="mariadb-admin ping"
+          --health-interval=5s
+          --health-timeout=2s
+          --health-retries=3
 
     steps:
-      - name: Clone
-        uses: actions/checkout@v2
-
-      - name: Find tests
-        run: |
-          echo "Finding tests"
-          grep -rn "def test" > /dev/null
+      - name: Clone repository
+        uses: actions/checkout@v4
 
       - name: Setup Python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v5
         with:
           python-version: '3.10'
 
       - name: Setup Node
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v4
         with:
-          node-version: 14
+          node-version: 18
           check-latest: true
+
+      - name: Install Yarn v1
+        run: npm install -g yarn@1
 
       - name: Cache pip
         uses: actions/cache@v4
@@ -58,7 +59,7 @@ jobs:
 
       - name: Get yarn cache directory path
         id: yarn-cache-dir-path
-        run: 'echo "::set-output name=dir::$(yarn cache dir)"'
+        run: echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
 
       - uses: actions/cache@v4
         id: yarn-cache
@@ -68,14 +69,19 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-yarn-
 
-      - name: Setup
+      - name: Install MariaDB Client
+        run: |
+          sudo apt update
+          sudo apt-get install -y mariadb-client
+
+      - name: Setup Bench & DB
         run: |
           pip install frappe-bench
           bench init --skip-redis-config-generation --skip-assets --python "$(which python)" ~/frappe-bench
-          mysql --host 127.0.0.1 --port 3306 -u root -proot -e "SET GLOBAL character_set_server = 'utf8mb4'"
-          mysql --host 127.0.0.1 --port 3306 -u root -proot -e "SET GLOBAL collation_server = 'utf8mb4_unicode_ci'"
+          mariadb --host 127.0.0.1 --port 3306 -u root -proot -e "SET GLOBAL character_set_server = 'utf8mb4'"
+          mariadb --host 127.0.0.1 --port 3306 -u root -proot -e "SET GLOBAL collation_server = 'utf8mb4_unicode_ci'"
 
-      - name: Install
+      - name: Install App
         working-directory: /home/runner/frappe-bench
         run: |
           bench get-app next_ai $GITHUB_WORKSPACE

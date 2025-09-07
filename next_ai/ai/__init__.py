@@ -2,7 +2,7 @@ import os
 import frappe
 import time
 from langchain_google_genai import ChatGoogleGenerativeAI
-from google.api_core.exceptions import ResourceExhausted
+from google.api_core.exceptions import ResourceExhausted, NotFound
 from frappe import _
 from next_ai.ai.prompt import PROMPTS
 from next_ai.ai.structured_output import NEXTAIBaseModel
@@ -166,7 +166,8 @@ class NextAILLM:
     def get_structured_output_llm(self, model_name: str = None):
         llm = self.get_llm(model_name=model_name)
         so_llm = llm.with_structured_output(NEXTAIBaseModel)
-        return so_llm
+        ai_msg = so_llm.invoke(self.prompt)
+        return ai_msg.response
 
     def get_next_model(self, current_model: str = None) -> str:
         is_next = False
@@ -180,12 +181,15 @@ class NextAILLM:
     
     def get_llm_response(self, model_name: str = None) -> str:
         try:
-            so_llm = self.get_structured_output_llm(model_name=model_name)
-            ai_msg = so_llm.invoke(self.prompt)
-            return ai_msg.response
-        except ResourceExhausted as e:
+            return self.get_structured_output_llm(model_name=model_name)
+        except (ResourceExhausted, NotFound) as e:
             frappe.log_error(frappe.get_traceback(), f"RPM limit reached {self.current_model} in NextAILLM.get_llm_response")
-            if self.nextai_settings.auto_switch_model_on_rpm:
+            if isinstance(e, NotFound):
+                model_info_doc = frappe.get_doc("NextAI Model Info", self.current_model)
+                model_info_doc.is_active = 0
+                model_info_doc.save()
+
+            if self.nextai_settings.auto_switch_model_on_rpm or isinstance(e, NotFound):
                 self.current_model = self.get_next_model(self.current_model)
                 if self.current_model == self.nextai_settings.model_name:
                     frappe.log_error(frappe.get_traceback(), "RPM limit reached for all models in NextAILLM.get_llm_response")
