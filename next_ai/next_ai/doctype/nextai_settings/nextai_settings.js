@@ -2,6 +2,16 @@
 // For license information, please see license.txt
 
 frappe.ui.form.on('NextAI Settings', {
+	refresh: function(frm){
+		frm.set_query("model_name", function() {
+        return {
+            filters: {
+                "is_active": 1,
+                "platform": cur_frm.doc.platform
+            }
+        };
+    });
+	},
 	is_subscription: function(frm) {
 		if (frm.doc.is_subscription) {
 			frm.doc.is_free = 0
