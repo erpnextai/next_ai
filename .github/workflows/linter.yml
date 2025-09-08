@@ -1,4 +1,3 @@
-
 name: Linters
 
 on:
@@ -13,37 +12,37 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  linter:
-    name: 'Frappe Linter'
+  frappe-linter:
+    name: 'Frappe Semgrep Linter'
     runs-on: ubuntu-latest
     if: github.event_name == 'pull_request'
 
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
         with:
           python-version: '3.10'
-          cache: pip
-      - uses: pre-commit/action@v3.0.0
 
-      - name: Download Semgrep rules
+      - name: Install Semgrep
+        run: pip install semgrep
+
+      - name: Download Frappe Semgrep Rules
         run: git clone --depth 1 https://github.com/frappe/semgrep-rules.git frappe-semgrep-rules
 
-      - name: Run Semgrep rules
-        run: |
-          pip install semgrep
-          semgrep ci --config ./frappe-semgrep-rules/rules --config r/python.lang.correctness
+      - name: Run Semgrep with Frappe Rules
+        run: semgrep ci --config ./frappe-semgrep-rules/rules --config r/python.lang.correctness
 
   deps-vulnerable-check:
     name: 'Vulnerable Dependency Check'
     runs-on: ubuntu-latest
 
     steps:
+      - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: '3.10'
-
-      - uses: actions/checkout@v4
 
       - name: Cache pip
         uses: actions/cache@v3
@@ -54,8 +53,7 @@ jobs:
             ${{ runner.os }}-pip-
             ${{ runner.os }}-
 
-      - name: Install and run pip-audit
+      - name: Install and Run pip-audit
         run: |
           pip install pip-audit
-          cd ${GITHUB_WORKSPACE}
           pip-audit --desc on .
