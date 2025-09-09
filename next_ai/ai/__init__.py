@@ -205,6 +205,8 @@ class NextAILLM:
                 self.is_error = True
                 return self.get_llm_response(model_name=self.current_model)
             else:
+                if isinstance(e, NotFound):
+                    frappe.throw(_(f"The selected model <b>{self.current_model}</b> is not active. Please choose the active model in <b>NextAI Settings</b>."))
                 frappe.throw(_(f"RPM limit reached for the current model {self.current_model}. Please try again later."))
         except Exception as e:
             frappe.log_error(frappe.get_traceback(), "Error in NextAILLM.get_llm_response")
