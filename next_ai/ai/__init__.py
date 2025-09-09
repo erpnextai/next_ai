@@ -66,6 +66,7 @@ class NextAILLM:
         self.template = template
         self.user_input = user_input
         self.field_info = field_info
+        self.is_error = False
 
         self.prompt = self.get_prompt() or template.format(input=user_input)
         self.validate_token()
@@ -166,8 +167,7 @@ class NextAILLM:
     def get_structured_output_llm(self, model_name: str = None):
         llm = self.get_llm(model_name=model_name)
         so_llm = llm.with_structured_output(NEXTAIBaseModel)
-        ai_msg = so_llm.invoke(self.prompt)
-        return ai_msg.response
+        return so_llm
 
     def get_next_model(self, current_model: str = None) -> str:
         is_next = False
@@ -181,24 +181,28 @@ class NextAILLM:
     
     def get_llm_response(self, model_name: str = None) -> str:
         try:
-            return self.get_structured_output_llm(model_name=model_name)
-        except (ResourceExhausted, NotFound) as e:
-            frappe.log_error(frappe.get_traceback(), f"RPM limit reached {self.current_model} in NextAILLM.get_llm_response")
-            if isinstance(e, NotFound):
-                model_info_doc = frappe.get_doc("NextAI Model Info", self.current_model)
-                model_info_doc.is_active = 0
-                model_info_doc.save()
+            so_llm = self.get_structured_output_llm(model_name=model_name)
+            ai_msg = so_llm.invoke(self.prompt)
 
-            if self.nextai_settings.auto_switch_model_on_rpm or isinstance(e, NotFound):
-                self.current_model = self.get_next_model(self.current_model)
-                if self.current_model == self.nextai_settings.model_name:
-                    frappe.log_error(frappe.get_traceback(), "RPM limit reached for all models in NextAILLM.get_llm_response")
-                    frappe.throw(_("RPM limit reached for all the models. Please try again later. Or Please upgrade your plan."))
+            if self.is_error:
                 self.nextai_settings.model_name = self.current_model
                 self.nextai_settings.save(
                     ignore_permissions=True,
                     ignore_version=True
                 )
-                return self.get_structured_output_llm(model_name=self.current_model)
+            
+            return ai_msg.response
+        except (ResourceExhausted, NotFound) as e:
+            frappe.log_error(frappe.get_traceback(), f"RPM limit reached {self.current_model} in NextAILLM.get_llm_response")
+            if isinstance(e, NotFound):
+                frappe.db.set_value('NextAI Model Info', self.current_model, 'is_active', 0)
+
+            if self.nextai_settings.auto_switch_model_on_rpm:
+                self.current_model = self.get_next_model(self.current_model)
+                if self.current_model == self.nextai_settings.model_name:
+                    frappe.log_error(frappe.get_traceback(), "RPM limit reached for all models in NextAILLM.get_llm_response")
+                    frappe.throw(_("RPM limit reached for all the models. Please try again later. Or Please upgrade your plan."))
+                self.is_error = True
+                return self.get_llm_response(model_name=self.current_model)
             else:
                 frappe.throw(_(f"RPM limit reached for the current model {self.current_model}. Please try again later."))
