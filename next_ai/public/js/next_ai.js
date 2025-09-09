@@ -161,7 +161,7 @@ function nextAIFeature(){
     
                 } catch (err) {
                     console.error("API call failed:", err);
-                    alert("API call failed.");
+                    // alert("API call failed.");
                 } finally {
                     setTimeout(()=>{
                         $icon.prop('disabled', false).css('opacity', 1).css('pointer-events', 'auto');
