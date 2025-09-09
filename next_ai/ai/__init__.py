@@ -66,7 +66,7 @@ class NextAILLM:
         self.template = template
         self.user_input = user_input
         self.field_info = field_info
-        self.is_error = False
+        self.is_error = self.is_critical = False
 
         self.prompt = self.get_prompt() or template.format(input=user_input)
         self.validate_token()
@@ -177,6 +177,9 @@ class NextAILLM:
                 continue
             if is_next:
                 return model['model_name']
+        if self.current_model == self.nextai_settings.model_name:
+            frappe.log_error(frappe.get_traceback(), "RPM limit reached for all models in NextAILLM.get_llm_response")
+            frappe.throw(_("RPM limit reached for all the models. Please try again later. Or Please upgrade your plan."))
         return self.model_info[0]['model_name']
     
     def get_llm_response(self, model_name: str = None) -> str:
@@ -199,10 +202,14 @@ class NextAILLM:
 
             if self.nextai_settings.auto_switch_model_on_rpm:
                 self.current_model = self.get_next_model(self.current_model)
-                if self.current_model == self.nextai_settings.model_name:
-                    frappe.log_error(frappe.get_traceback(), "RPM limit reached for all models in NextAILLM.get_llm_response")
-                    frappe.throw(_("RPM limit reached for all the models. Please try again later. Or Please upgrade your plan."))
                 self.is_error = True
                 return self.get_llm_response(model_name=self.current_model)
             else:
                 frappe.throw(_(f"RPM limit reached for the current model {self.current_model}. Please try again later."))
+        except Exception as e:
+            frappe.log_error(frappe.get_traceback(), "Error in NextAILLM.get_llm_response")
+            if self.is_critical:
+                frappe.throw(_("Critical Error in getting LLM response: {0}").format(str(e)))
+            self.is_critical = True
+            self.current_model = self.get_next_model(self.current_model)
+            return self.get_llm_response(model_name=self.current_model)
