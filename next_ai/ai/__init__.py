@@ -171,16 +171,21 @@ class NextAILLM:
 
     def get_next_model(self, current_model: str = None) -> str:
         is_next = False
+        next_model = None
         for model in self.model_info:
             if model['model_name'] == current_model:
                 is_next = True
                 continue
             if is_next:
-                return model['model_name']
-        if self.current_model == self.nextai_settings.model_name:
+                next_model = model['model_name']
+                break
+        next_model = next_model or self.model_info[0]['model_name']
+
+        if next_model == self.nextai_settings.model_name:
             frappe.log_error(frappe.get_traceback(), "RPM limit reached for all models in NextAILLM.get_llm_response")
-            frappe.throw(_("RPM limit reached for all the models. Please try again later. Or Please upgrade your plan."))
-        return self.model_info[0]['model_name']
+            frappe.throw(_("<b>RPM limit</b> has been reached for all models. Please <b>try again later</b> or <b>upgrade your plan</b>."))
+        
+        return next_model
     
     def get_llm_response(self, model_name: str = None) -> str:
         try:
@@ -196,9 +201,11 @@ class NextAILLM:
             
             return ai_msg.response
         except (ResourceExhausted, NotFound) as e:
-            frappe.log_error(frappe.get_traceback(), f"RPM limit reached {self.current_model} in NextAILLM.get_llm_response")
             if isinstance(e, NotFound):
+                frappe.log_error(f"Model not found {self.current_model}\n {frappe.get_traceback()}", "Model NotFound")
                 frappe.db.set_value('NextAI Model Info', self.current_model, 'is_active', 0)
+            if isinstance(e, ResourceExhausted):
+                frappe.log_error(frappe.get_traceback(), f"RPM limit reached {self.current_model} in NextAILLM.get_llm_response")
 
             if self.nextai_settings.auto_switch_model_on_rpm:
                 self.current_model = self.get_next_model(self.current_model)
@@ -209,9 +216,9 @@ class NextAILLM:
                     frappe.throw(_(f"The selected model <b>{self.current_model}</b> is not active. Please choose the active model in <b>NextAI Settings</b>."))
                 frappe.throw(_(f"RPM limit reached for the current model {self.current_model}. Please try again later."))
         except Exception as e:
-            frappe.log_error(frappe.get_traceback(), "Error in NextAILLM.get_llm_response")
+            frappe.log_error(frappe.get_traceback(), "Critical NextAILLM.get_llm_response")
             if self.is_critical:
-                frappe.throw(_("Critical Error in getting LLM response: {0}").format(str(e)))
+                frappe.throw(_("You have reached the <b>limit</b> or the system is <b>too busy</b>.  Please try again later, or contact <b>NextAI Support</b> if you see this message frequently."))
             self.is_critical = True
             self.current_model = self.get_next_model(self.current_model)
             return self.get_llm_response(model_name=self.current_model)
