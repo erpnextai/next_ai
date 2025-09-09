@@ -7,7 +7,7 @@ frappe.ui.form.on('NextAI Settings', {
         return {
             filters: {
                 "is_active": 1,
-                "platform": cur_frm.doc.platform
+                "platform": frm.doc.platform
             }
         };
     });
