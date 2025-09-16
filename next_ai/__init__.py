@@ -16,4 +16,5 @@ try:
     __version__ = VERSION.get(branch, VERSION['default'])
 except Exception as e:
     __version__ = VERSION['default']
-    warnings.warn(f"Error getting git branch: {str(e)}", category=RuntimeWarning)
+
+__version__ = __version__
