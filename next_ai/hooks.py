@@ -144,13 +144,13 @@ permission_query_conditions = {
 # Scheduled Tasks
 # ---------------
 
-# scheduler_events = {
+scheduler_events = {
 # 	"all": [
 # 		"next_ai.tasks.all"
 # 	],
-# 	"daily": [
-# 		"next_ai.tasks.daily"
-# 	],
+	"daily": [
+		"next_ai.ai.scheduler.delete_old_nextai_usage_logs"
+	],
 # 	"hourly": [
 # 		"next_ai.tasks.hourly"
 # 	],
@@ -160,7 +160,7 @@ permission_query_conditions = {
 # 	"monthly": [
 # 		"next_ai.tasks.monthly"
 # 	],
-# }
+}
 
 # Testing
 # -------

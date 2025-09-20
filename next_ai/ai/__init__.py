@@ -6,7 +6,7 @@ from google.api_core.exceptions import ResourceExhausted, NotFound
 from frappe import _
 from next_ai.ai.prompt import PROMPTS
 from next_ai.ai.structured_output import NEXTAIBaseModel
-
+from next_ai.ai.utils import nextai_usage_log_create
 
 
 @frappe.whitelist(allow_guest=True)
@@ -199,6 +199,21 @@ class NextAILLM:
                     ignore_version=True
                 )
             
+            frappe.enqueue(
+                nextai_usage_log_create_internal,
+                queue='short',
+                platform=self.nextai_settings.platform,
+                user=frappe.session.user,
+                model_name=self.current_model,
+                sub_type='Text-to-Text',
+                question=self.user_input,
+                prompt=self.prompt,
+                response=ai_msg.response,
+                ref_doctype=self.field_info.get('doctype'),
+                field_name=self.field_info.get('key')
+            )
+            
+
             return ai_msg.response
         except (ResourceExhausted, NotFound) as e:
             if isinstance(e, NotFound):
@@ -222,3 +237,14 @@ class NextAILLM:
             self.is_critical = True
             self.current_model = self.get_next_model(self.current_model)
             return self.get_llm_response(model_name=self.current_model)
+
+
+
+def nextai_usage_log_create_internal(**kwargs):
+    """
+    This function is used to create usage log for nextai usage it should contains the
+    """
+    try:
+        nextai_usage_log_create(**kwargs)
+    except Exception as e:
+        frappe.log_error(frappe.get_traceback(), "Error in nextai_usage_log_create_internal")
