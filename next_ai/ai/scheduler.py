@@ -30,5 +30,4 @@ def delete_old_nextai_usage_logs():
         WHERE usage_at < %s
     """, cutoff_date)
     
-    frappe.db.commit()
     frappe.log_error(message=f"Deleted NextAI Usage Logs older than {retention_days} days", title="NextAI Cron Job - def delete_old_nextai_usage_logs")
