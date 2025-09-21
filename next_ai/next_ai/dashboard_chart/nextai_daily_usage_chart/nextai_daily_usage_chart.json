@@ -1,0 +1,40 @@
+{
+ "chart_name": "NextAI Daily Usage Chart",
+ "chart_type": "Report",
+ "creation": "2025-09-21 15:27:09.139506",
+ "docstatus": 0,
+ "doctype": "Dashboard Chart",
+ "dynamic_filters_json": "{}",
+ "filters_json": "{\"from_date\":\"2025-09-11\",\"to_date\":\"2025-09-21\"}",
+ "group_by_type": "Count",
+ "idx": 0,
+ "is_public": 0,
+ "is_standard": 1,
+ "modified": "2025-09-21 15:27:09.139506",
+ "modified_by": "Administrator",
+ "module": "Next AI",
+ "name": "NextAI Daily Usage Chart",
+ "number_of_groups": 0,
+ "owner": "Administrator",
+ "report_name": "NextAI Daily Usage Summary",
+ "roles": [
+  {
+   "role": "System Manager"
+  },
+  {
+   "role": "NextAI User"
+  }
+ ],
+ "time_interval": "Yearly",
+ "timeseries": 0,
+ "timespan": "Last Year",
+ "type": "Line",
+ "use_report_chart": 0,
+ "x_field": "month_day",
+ "y_axis": [
+  {
+   "color": "#29CD42",
+   "y_field": "usage_count"
+  }
+ ]
+}
