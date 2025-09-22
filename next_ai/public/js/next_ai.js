@@ -100,8 +100,12 @@ function nextAIFeature(){
 
         $icon.on('click', async function () {
             let keyValue = {};
-
-            const doctype = cur_frm.doc.doctype;
+            let doctype = '';
+            if (cur_frm){
+                doctype = cur_frm.doc.doctype;
+            }else if(cur_dialog){
+                doctype = cur_dialog.doc.doctype;
+            }
 
             const $fieldWrapper = $container.closest('[data-fieldname]');
             const fieldname = $fieldWrapper.length ? $fieldWrapper.data('fieldname') : 'unknown';

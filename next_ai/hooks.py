@@ -16,7 +16,7 @@ fixtures = [
     {
         "dt": "Custom HTML Block",
         "filters": [
-            ["name", "in", ["NextAI Header"]]
+            ["name", "in", ["NextAI Header", "NextAI Header 2"]]
         ]
     }
 ]
