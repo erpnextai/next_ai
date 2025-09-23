@@ -65,7 +65,7 @@
    "type": "Link"
   }
  ],
- "modified": "2025-09-23 19:31:51.934815",
+ "modified": "2025-09-23 21:54:13.641274",
  "modified_by": "Administrator",
  "module": "Next AI",
  "name": "NextAI",
@@ -80,9 +80,6 @@
   },
   {
    "role": "System Manager"
-  },
-  {
-   "role": "Employee"
   }
  ],
  "sequence_id": 2.0,
