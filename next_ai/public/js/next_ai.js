@@ -7,20 +7,21 @@ $(document).ready(function () {
                 frappe.user.has_role("NextAI User") ||
                 frappe.session.user === "Administrator" ||
                 frappe.user.has_role("System Manager")
-            ) && 
-            (
-                !cur_frm || !cur_frm.doc ||  
-                (
-                    cur_frm.doc.doctype !== 'DocType' &&
-                    cur_frm.doc.doctype !== 'Customize Form'
-                )
-            )
+            ) &&
+            !isRestrictedDoctype() 
         ) {
             nextAIFeature();
         }
     }, 2000)
 });
 
+function isRestrictedDoctype() {
+    const route = frappe.get_route(); // ["Form", "DocType", "Role"]
+    if (!route || route[0] !== "Form") return false;
+
+    const doctype = route[1];
+    return (doctype === "DocType" || doctype === "Customize Form");
+}
 
 function nextAIFeature(){
     const allowedTypes = ['Text', 'Text Editor', 'Small Text', 'Long Text', 'JSON', 'HTML Editor', 'Markdown Editor', 'Code'];
@@ -100,12 +101,14 @@ function nextAIFeature(){
 
         $icon.on('click', async function () {
             let keyValue = {};
-            let doctype = '';
-            if (cur_frm){
-                doctype = cur_frm.doc.doctype;
-            }else if(cur_dialog){
+
+            let doctype = "";
+            if (frappe.get_route()[0] === "Form") {
+                doctype = frappe.get_route()[1];
+            } else if (cur_dialog) {
                 doctype = cur_dialog.doc.doctype;
             }
+
 
             const $fieldWrapper = $container.closest('[data-fieldname]');
             const fieldname = $fieldWrapper.length ? $fieldWrapper.data('fieldname') : 'unknown';
