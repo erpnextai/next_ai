@@ -1,0 +1,160 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2025-09-20 16:13:02.063295",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "platform",
+  "usage_at",
+  "column_break_bh6ee",
+  "model_name",
+  "sub_type",
+  "user",
+  "section_break_gj9pe",
+  "question",
+  "prompt",
+  "column_break_o9c16",
+  "response",
+  "doc_details_section",
+  "ref_doctype",
+  "column_break_nufgs",
+  "field_name"
+ ],
+ "fields": [
+  {
+   "fieldname": "platform",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Platform",
+   "read_only": 1
+  },
+  {
+   "fieldname": "usage_at",
+   "fieldtype": "Datetime",
+   "label": "Usage At",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_bh6ee",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "user",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "User",
+   "options": "User",
+   "read_only": 1
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "section_break_gj9pe",
+   "fieldtype": "Section Break",
+   "label": "Message Details"
+  },
+  {
+   "fieldname": "question",
+   "fieldtype": "Long Text",
+   "label": "Question",
+   "read_only": 1
+  },
+  {
+   "fieldname": "prompt",
+   "fieldtype": "Long Text",
+   "label": "Prompt",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_o9c16",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "response",
+   "fieldtype": "Long Text",
+   "label": "Response",
+   "read_only": 1
+  },
+  {
+   "fieldname": "model_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Model Name",
+   "read_only": 1
+  },
+  {
+   "fieldname": "sub_type",
+   "fieldtype": "Data",
+   "label": "Sub Type",
+   "read_only": 1
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "doc_details_section",
+   "fieldtype": "Section Break",
+   "label": "Doc Details"
+  },
+  {
+   "fieldname": "ref_doctype",
+   "fieldtype": "Link",
+   "label": "Doctype",
+   "options": "DocType",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_nufgs",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "field_name",
+   "fieldtype": "Data",
+   "label": "Field Name",
+   "read_only": 1
+  }
+ ],
+ "in_create": 1,
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2025-09-23 19:30:47.186823",
+ "modified_by": "Administrator",
+ "module": "Next AI",
+ "name": "NextAI Usage Log",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "NextAI User",
+   "share": 1
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "All",
+   "share": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
