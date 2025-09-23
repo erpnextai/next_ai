@@ -62,9 +62,9 @@ def execute(filters=None):
 
     # Columns
     columns = [
-        {"label": "Usage Date", "fieldname": "usage_date", "fieldtype": "Date", "width": 120},
-        {"label": "Month Day", "fieldname": "month_day", "fieldtype": "Data", "width": 100},
-        {"label": "Usage Count", "fieldname": "usage_count", "fieldtype": "Int", "width": 120},
+        {"label": _("Usage Date"), "fieldname": "usage_date", "fieldtype": "Date", "width": 120},
+        {"label": _("Month Day"), "fieldname": "month_day", "fieldtype": "Data", "width": 100},
+        {"label": _("Usage Count"), "fieldname": "usage_count", "fieldtype": "Int", "width": 120},
     ]
 
     return columns, data
