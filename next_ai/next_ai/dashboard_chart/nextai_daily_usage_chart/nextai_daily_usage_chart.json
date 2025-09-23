@@ -4,13 +4,13 @@
  "creation": "2025-09-21 15:27:09.139506",
  "docstatus": 0,
  "doctype": "Dashboard Chart",
- "dynamic_filters_json": "{}",
- "filters_json": "{\"from_date\":\"2025-09-11\",\"to_date\":\"2025-09-21\"}",
+ "dynamic_filters_json": "{\"user\":\"frappe.session.user\",\"from_date\":\"frappe.datetime.add_days(frappe.datetime.get_today(), -10)\",\"to_date\":\"frappe.datetime.get_today()\"}",
+ "filters_json": "{}",
  "group_by_type": "Count",
  "idx": 0,
  "is_public": 0,
  "is_standard": 1,
- "modified": "2025-09-21 15:27:09.139506",
+ "modified": "2025-09-23 19:59:39.761053",
  "modified_by": "Administrator",
  "module": "Next AI",
  "name": "NextAI Daily Usage Chart",
@@ -23,6 +23,9 @@
   },
   {
    "role": "NextAI User"
+  },
+  {
+   "role": "All"
   }
  ],
  "time_interval": "Yearly",

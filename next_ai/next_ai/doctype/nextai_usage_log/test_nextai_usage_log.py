@@ -1,4 +1,4 @@
-# Copyright (c) 2025, Antony Praveenkumar Moses and Contributors
+# Copyright (c) 2025, NextAI Team and Contributors
 # See license.txt
 
 # import frappe

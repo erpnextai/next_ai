@@ -1,8 +1,8 @@
 app_name = "next_ai"
 app_title = "Next AI"
-app_publisher = "Antony Praveenkumar Moses"
+app_publisher = "NextAI Team"
 app_description = "Next AI is an AI-enabled application designed for seamless content generation and enhancement. With the power of advanced language models, it helps users create high-quality content and intelligently improve existing text, making writing faster, smarter, and more effective."
-app_email = "antonykumar15898@gmail.com"
+app_email = "erpnextai@gmail.com"
 app_license = "Custom Non-Commercial License"
 
 fixtures = [
@@ -113,7 +113,8 @@ app_include_js = "/assets/next_ai/js/next_ai.js"
 # Permissions evaluated in scripted ways
 
 permission_query_conditions = {
-	"NextAI Prompt": "next_ai.next_ai.doctype.nextai_prompt.nextai_prompt.get_permission_query_conditions"
+	"NextAI Prompt": "next_ai.next_ai.doctype.nextai_prompt.nextai_prompt.get_permission_query_conditions",
+    "NextAI Usage Log": "next_ai.next_ai.doctype.nextai_usage_log.nextai_usage_log.get_permission_query_conditions"
 	# "Event": "frappe.desk.doctype.event.event.get_permission_query_conditions",
 }
 #
