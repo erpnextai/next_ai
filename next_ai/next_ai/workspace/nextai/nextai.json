@@ -65,7 +65,7 @@
    "type": "Link"
   }
  ],
- "modified": "2025-09-21 17:11:45.412663",
+ "modified": "2025-09-23 19:31:51.934815",
  "modified_by": "Administrator",
  "module": "Next AI",
  "name": "NextAI",
@@ -74,7 +74,17 @@
  "parent_page": "",
  "public": 1,
  "quick_lists": [],
- "roles": [],
+ "roles": [
+  {
+   "role": "All"
+  },
+  {
+   "role": "System Manager"
+  },
+  {
+   "role": "Employee"
+  }
+ ],
  "sequence_id": 2.0,
  "shortcuts": [
   {

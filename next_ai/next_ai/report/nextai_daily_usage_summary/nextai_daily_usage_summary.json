@@ -1,5 +1,5 @@
 {
- "add_total_row": 0,
+ "add_total_row": 1,
  "columns": [],
  "creation": "2025-09-21 10:58:59.223245",
  "disable_prepared_report": 0,
@@ -9,7 +9,7 @@
  "filters": [],
  "idx": 0,
  "is_standard": "Yes",
- "modified": "2025-09-21 10:58:59.223245",
+ "modified": "2025-09-23 18:36:10.459500",
  "modified_by": "Administrator",
  "module": "Next AI",
  "name": "NextAI Daily Usage Summary",
@@ -22,6 +22,12 @@
  "roles": [
   {
    "role": "System Manager"
+  },
+  {
+   "role": "NextAI User"
+  },
+  {
+   "role": "All"
   }
  ]
 }
