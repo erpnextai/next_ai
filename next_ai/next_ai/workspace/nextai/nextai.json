@@ -5,12 +5,16 @@
    "label": "NextAI Daily Usage"
   }
  ],
- "content": "[{\"id\":\"JuyzqjwUUi\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">NextAI</span>\",\"col\":12}},{\"id\":\"IA-NxXsb1r\",\"type\":\"custom_block\",\"data\":{\"custom_block_name\":\"NextAI Header\",\"col\":12}},{\"id\":\"LMZ7beooGZ\",\"type\":\"chart\",\"data\":{\"chart_name\":\"NextAI Daily Usage\",\"col\":12}},{\"id\":\"nXcvg5Ifa-\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"u9yajttwji\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"NextAI Settings\",\"col\":3}},{\"id\":\"1zoRFA1Tou\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"NextAI Model Info\",\"col\":3}},{\"id\":\"BvnXg869AG\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"NextAI Prompt\",\"col\":3}},{\"id\":\"63HoSuRryt\",\"type\":\"card\",\"data\":{\"card_name\":\"Report\",\"col\":4}},{\"id\":\"R6wMYhhpgU\",\"type\":\"card\",\"data\":{\"card_name\":\"Other\",\"col\":4}}]",
+ "content": "[{\"id\":\"JuyzqjwUUi\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">NextAI</span>\",\"col\":12}},{\"id\":\"IA-NxXsb1r\",\"type\":\"custom_block\",\"data\":{\"custom_block_name\":\"NextAI Header\",\"col\":12}},{\"id\":\"Qj1v_tw0nk\",\"type\":\"custom_block\",\"data\":{\"custom_block_name\":\"NextAI Header 2\",\"col\":12}},{\"id\":\"LMZ7beooGZ\",\"type\":\"chart\",\"data\":{\"chart_name\":\"NextAI Daily Usage\",\"col\":12}},{\"id\":\"nXcvg5Ifa-\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"u9yajttwji\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"NextAI Settings\",\"col\":3}},{\"id\":\"1zoRFA1Tou\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"NextAI Model Info\",\"col\":3}},{\"id\":\"BvnXg869AG\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"NextAI Prompt\",\"col\":3}},{\"id\":\"63HoSuRryt\",\"type\":\"card\",\"data\":{\"card_name\":\"Report\",\"col\":4}},{\"id\":\"R6wMYhhpgU\",\"type\":\"card\",\"data\":{\"card_name\":\"Other\",\"col\":4}}]",
  "creation": "2025-08-25 22:25:41.753873",
  "custom_blocks": [
   {
    "custom_block_name": "NextAI Header",
    "label": "NextAI Header"
+  },
+  {
+   "custom_block_name": "NextAI Header 2",
+   "label": "NextAI Header 2"
   }
  ],
  "docstatus": 0,
@@ -61,7 +65,7 @@
    "type": "Link"
   }
  ],
- "modified": "2025-09-21 15:35:35.415140",
+ "modified": "2025-09-21 17:11:45.412663",
  "modified_by": "Administrator",
  "module": "Next AI",
  "name": "NextAI",
