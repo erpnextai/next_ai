@@ -1,11 +1,20 @@
 {
- "charts": [],
- "content": "[{\"id\":\"JuyzqjwUUi\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">NextAI</span>\",\"col\":12}},{\"id\":\"IA-NxXsb1r\",\"type\":\"custom_block\",\"data\":{\"custom_block_name\":\"NextAI Header\",\"col\":12}},{\"id\":\"u9yajttwji\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"NextAI Settings\",\"col\":3}},{\"id\":\"1zoRFA1Tou\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"NextAI Model Info\",\"col\":3}},{\"id\":\"BvnXg869AG\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"NextAI Prompt\",\"col\":3}}]",
+ "charts": [
+  {
+   "chart_name": "NextAI Daily Usage Chart",
+   "label": "NextAI Daily Usage"
+  }
+ ],
+ "content": "[{\"id\":\"JuyzqjwUUi\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">NextAI</span>\",\"col\":12}},{\"id\":\"IA-NxXsb1r\",\"type\":\"custom_block\",\"data\":{\"custom_block_name\":\"NextAI Header\",\"col\":12}},{\"id\":\"Qj1v_tw0nk\",\"type\":\"custom_block\",\"data\":{\"custom_block_name\":\"NextAI Header 2\",\"col\":12}},{\"id\":\"LMZ7beooGZ\",\"type\":\"chart\",\"data\":{\"chart_name\":\"NextAI Daily Usage\",\"col\":12}},{\"id\":\"nXcvg5Ifa-\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"u9yajttwji\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"NextAI Settings\",\"col\":3}},{\"id\":\"1zoRFA1Tou\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"NextAI Model Info\",\"col\":3}},{\"id\":\"BvnXg869AG\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"NextAI Prompt\",\"col\":3}},{\"id\":\"63HoSuRryt\",\"type\":\"card\",\"data\":{\"card_name\":\"Report\",\"col\":4}},{\"id\":\"R6wMYhhpgU\",\"type\":\"card\",\"data\":{\"card_name\":\"Other\",\"col\":4}}]",
  "creation": "2025-08-25 22:25:41.753873",
  "custom_blocks": [
   {
    "custom_block_name": "NextAI Header",
    "label": "NextAI Header"
+  },
+  {
+   "custom_block_name": "NextAI Header 2",
+   "label": "NextAI Header 2"
   }
  ],
  "docstatus": 0,
@@ -16,8 +25,47 @@
  "idx": 0,
  "is_hidden": 0,
  "label": "NextAI",
- "links": [],
- "modified": "2025-08-26 00:11:47.781602",
+ "links": [
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Report",
+   "link_count": 1,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Daily Usage Summary",
+   "link_count": 0,
+   "link_to": "NextAI Daily Usage Summary",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Other",
+   "link_count": 1,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "NextAI Usage Log",
+   "link_count": 0,
+   "link_to": "NextAI Usage Log",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  }
+ ],
+ "modified": "2025-09-23 21:54:13.641274",
  "modified_by": "Administrator",
  "module": "Next AI",
  "name": "NextAI",
@@ -26,7 +74,14 @@
  "parent_page": "",
  "public": 1,
  "quick_lists": [],
- "roles": [],
+ "roles": [
+  {
+   "role": "All"
+  },
+  {
+   "role": "System Manager"
+  }
+ ],
  "sequence_id": 2.0,
  "shortcuts": [
   {

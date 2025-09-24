@@ -1,4 +1,4 @@
-# Copyright (c) 2025, antonykumar15898@gmail.com and Contributors
+# Copyright (c) 2025, erpnextai@gmail.com and Contributors
 # See license.txt
 
 # import frappe
