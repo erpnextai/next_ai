@@ -33,7 +33,7 @@
   },
   {
    "fieldname": "description",
-   "fieldtype": "Data",
+   "fieldtype": "Small Text",
    "in_list_view": 1,
    "label": "Description"
   }
@@ -41,12 +41,13 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2025-11-02 19:22:58.615233",
+ "modified": "2025-11-10 21:47:56.285297",
  "modified_by": "Administrator",
  "module": "Next AI",
  "name": "NextAI Parsing Details",
  "owner": "Administrator",
  "permissions": [],
+ "row_format": "Dynamic",
  "sort_field": "modified",
  "sort_order": "DESC",
  "states": [],
