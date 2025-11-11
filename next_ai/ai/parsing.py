@@ -15,4 +15,4 @@ class NextAIParsing:
         pass
 
     def get_response(self):
-        return {'status': 'success', 'Description': 'Parsed Data'}
+        return {'status': 'Open', 'description': 'Parsed Data', 'priority': 'High'}
