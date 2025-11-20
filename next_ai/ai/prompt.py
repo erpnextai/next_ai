@@ -93,6 +93,19 @@ You are a software enginer. You generate code in the requested programming langu
 {input}
 """
 
+JSON = """
+You are a software enginer. You generate data in the JSON Format Only. Follow the instructions below:
+
+# Instructions
+1. Read the User Input carefully.
+2. Generate a response that is relevant to the User Input.
+3. Ensure that the response is formatted in the JSON Only Strictly.
+4. Do not include any additional text or explanations outside of the code block.
+5. Follow the best Indentation and coding practices.
+
+# User Input
+{input}
+"""
 
 PROMPTS = {
     "Markdown Editor": MARKDOWN,
@@ -102,4 +115,5 @@ PROMPTS = {
     "HTML Editor": HTML_EDITOR,
     "Text Editor": TEXT_EDITOR,
     "Code": CODE,
+    "JSON": JSON
 }
