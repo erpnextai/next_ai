@@ -1,10 +1,17 @@
 import frappe
+from pydantic import BaseModel, Field, create_model
+from next_ai.ai.utils import get_parser_type_details
 
 
 @frappe.whitelist(methods=["POST"])
 def get_ai_parser_response(**kwargs):
     message = NextAIParsing().get_response()
     return {"status_code":200, "status": "sucess", "message": message}
+
+@frappe.whitelist(methods=["GET"])
+def get_parser_fieldtype_details():
+    parser_type_details = get_parser_type_details()
+    return {"status_code":200, "status": "sucess", "message": parser_type_details}
 
 
 class NextAIParsing:
@@ -16,3 +23,42 @@ class NextAIParsing:
 
     def get_response(self):
         return {'status': 'Open', 'description': 'Parsed Data', 'priority': 'High'}
+    
+
+    def build_dynamic_parser(fields: dict):
+        model_fields = {}
+
+        for name, meta in fields.items():
+            field_type = meta["type"]
+            description = meta.get("description", "")
+
+            # Add field with default None (or False for bool)
+            default_value = False if field_type is bool else None
+
+            model_fields[name] = (field_type, Field(default_value, description=description))
+
+        # dynamically create a pydantic model
+        DynamicBaseParser = create_model("DynamicBaseParser", **model_fields)
+        return DynamicBaseParser
+
+    def test_dynamic_parser(self):
+        fields = {
+            "status": {"type": str, "description": "Status of the task"},
+            "description": {"type": str, "description": "Description of the task"},
+            "priority": {"type": str, "description": "Priority level"},
+            "is_completed": {"type": bool, "description": "Completion status"}
+        }
+
+        DynamicParser = self.build_dynamic_parser(fields)
+
+        # Example usage
+        example_data = {
+            "status": "Open",
+            "description": "This is a test task.",
+            "priority": "High",
+            "is_completed": False
+        }
+
+        parsed_instance = DynamicParser(**example_data)
+        frappe.logger().info(f"Parsed Instance: {parsed_instance}")
+        return parsed_instance
