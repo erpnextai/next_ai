@@ -58,7 +58,7 @@ def get_parser_type_details() -> dict:
         "Color": {
             "type": str,
             "default_description": "Get appropriate data for the field",
-            "is_active": False
+            "is_active": True
         },
         "Column Break": {
             "type": str,
@@ -88,7 +88,7 @@ def get_parser_type_details() -> dict:
         "Duration": {
             "type": int,
             "default_description": "Duration value represented in total seconds (e.g., 1 hour = 3600 seconds).",
-            "is_active": False
+            "is_active": True
         },
         "Dynamic Link": {
             "type": str,

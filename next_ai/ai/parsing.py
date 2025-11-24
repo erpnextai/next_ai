@@ -5,7 +5,12 @@ from next_ai.ai.utils import get_parser_type_details
 
 @frappe.whitelist(methods=["POST"])
 def get_ai_parser_response(**kwargs):
-    message = NextAIParsing().get_response()
+    """
+    doctype: str - The name of the doctype to parse data for.
+    name: str - The name of the document instance.
+    message: str - The user input message to be parsed.
+    """
+    message = NextAIParsing().get_response(kwargs)
     return {"status_code":200, "status": "sucess", "message": message}
 
 @frappe.whitelist(methods=["GET"])
@@ -21,7 +26,11 @@ class NextAIParsing:
     def __init__(self):
         pass
 
-    def get_response(self):
+    def get_response(self, data) -> dict:
+        doctype = data.get("doctype")
+        doctype_name = data.get("name")
+        message = data.get("message")
+
         return {'status': 'Open', 'description': 'Parsed Data', 'priority': 'High'}
     
 
@@ -62,3 +71,10 @@ class NextAIParsing:
         parsed_instance = DynamicParser(**example_data)
         frappe.logger().info(f"Parsed Instance: {parsed_instance}")
         return parsed_instance
+
+
+    def get_parsing_field_details(self, name) -> dict:
+        """
+        Get the field details for a given parser field name.
+        """
+        pass
