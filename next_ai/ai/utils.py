@@ -57,7 +57,7 @@ def get_parser_type_details() -> dict:
         },
         "Color": {
             "type": str,
-            "default_description": "Get appropriate data for the field",
+            "default_description": "Apply color codes dynamically so that higher priorities shift toward red/orange, mid priorities toward yellow, and lower priorities toward green (#29CD42).",
             "is_active": True
         },
         "Column Break": {
