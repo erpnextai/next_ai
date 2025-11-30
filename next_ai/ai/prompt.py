@@ -117,3 +117,18 @@ PROMPTS = {
     "Code": CODE,
     "JSON": JSON
 }
+
+
+PARSING_PROMPT = """
+You are an expert data parser. Your task is to extract and structure information based on the provided field definitions. Follow the instructions below:
+
+# Instructions
+1. Read the Field Definitions carefully.
+2. Read the User Input carefully.
+3. Extract relevant information from the User Input based on the Field Definitions.
+4. Ensure the extracted information more grammatically correct and contextually relevant.
+5. If any date related incomplete information contains, use current time infomration to fill the missing details.
+
+# User Input
+{input}
+"""
