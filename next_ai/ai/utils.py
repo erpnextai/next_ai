@@ -18,6 +18,7 @@ def nextai_usage_log_create(**kwargs):
         frappe.log_error(frappe.get_traceback(), "Nextai Usage Log Create Failed")
 
 
+@frappe.whitelist()
 def get_parser_type_details() -> dict:
     parser_type_details = {
         "Autocomplete": {
