@@ -248,15 +248,40 @@ function typeText($target, text, type, callback) {
 
 
 function injectGlobalNextAIButton() {
+    let allowed_doctypes = [];
+    var parsing_name = 
+
+    // Fetch allowed doctypes once
+    frappe.call({
+        method: "frappe.client.get_list",
+        args: {
+            doctype: "NextAI Parsing",
+            fields: ["name", "doc"],
+            filters: { enable: 1 }
+        },
+        callback(r) {
+            allowed_doctypes = r.message?.map(row => row.doc) || [];
+            parsing_name = r.message[0].name
+            console.log("NextAI Allowed Doctypes:", allowed_doctypes);
+        }
+    });
+
     const headerSelector = '.page-head .page-title';
 
     const observer = new MutationObserver(() => {
         const header = document.querySelector(headerSelector);
         if (!header) return;
 
-        // Only add button in FORM VIEW
         const route = frappe.get_route();
         if (!route || route[0] !== "Form") return;
+
+        const frm = cur_frm;
+        if (!frm) return;
+
+        // ---------- DOCTYPE FILTERING ---------- //
+        if (!allowed_doctypes.includes(frm.doctype)) {
+            return; // Do not load button
+        }
 
         // Avoid duplicate
         if (document.querySelector('#nextai-global-btn')) return;
@@ -299,68 +324,164 @@ function injectGlobalNextAIButton() {
             function () { $(this).css('transform', 'scale(1)'); }
         );
 
+        // $icon.on('click', (e) => {
+        //     const frm = cur_frm;
+        //     const d = new frappe.ui.Dialog({
+        //         title: "NextAI Prompt",
+        //         size: "large",
+        //         fields: [
+        //             {
+        //                 label: "Doctype",
+        //                 fieldname: "doctype_name",
+        //                 fieldtype: "Link",
+        //                 options: "DocType",
+        //                 read_only: 1,
+        //                 default: frm.doctype,
+        //                 reqd: 0
+        //             },
+        //             {
+        //                 label: "Parsing",
+        //                 fieldname: "parsing_name",
+        //                 fieldtype: "Link",
+        //                 options: "NextAI Parsing",
+        //                 read_only: 1,
+        //                 default: parsing_name,
+        //                 reqd: 0
+        //             },
+        //             { fieldtype: "Column Break" },
+        //             {
+        //                 label: "Child Doctype",
+        //                 fieldname: "child_doctype_name",
+        //                 fieldtype: "Select",
+        //                 options: [],
+        //                 reqd: 0
+        //             },
+        //             { fieldtype: "Section Break" },
+        //             {
+        //                 label: "Your Input",
+        //                 fieldname: "prompt",
+        //                 fieldtype: "Long Text",
+        //                 reqd: 1
+        //             }
+        //         ],
+        //         primary_action_label: "Generate",
+        //         primary_action(values) {
+        //             frappe.call({
+        //                 method: "next_ai.ai.parsing.get_ai_parser_response",
+        //                 args: {
+        //                     // doctype: values.child_doctype_name || values.doctype_name,
+        //                     doctype: values.doctype_name,
+        //                     name: values.parsing_name,
+        //                     message: values.prompt
+        //                 },
+        //                 callback(res) {
+        //                     frappe.msgprint("Processing Done:<br>" + JSON.stringify(res.message));
+        //                 }
+        //             });
+
+
+        //             d.hide();
+        //         }
+        //     });
+        //     // --- Populate Child Doctypes ---
+        //     const table_fields = frm.meta.fields
+        //         .filter(df => df.fieldtype === "Table")
+        //         .map(df => df.options);           // child doctypes
+            
+        //     if (table_fields.length == 0){
+        //         d.set_df_property("field_name", "hidden", 1);
+        //     }else{
+        //         d.set_df_property("field_name", "options", table_fields);
+        //     }
+        //     d.show();
+        // });
+
         $icon.on('click', (e) => {
-            debugger
-            const frm = cur_frm;
-            const d = new frappe.ui.Dialog({
-                title: "NextAI Prompt",
-                size: "large",
-                fields: [
-                    {
-                        label: "Doctype",
-                        fieldname: "doctype_name",
-                        fieldtype: "Link",
-                        options: "DocType",
-                        read_only: 1,
-                        default: frm.doctype,
-                        reqd: 0
-                    },
-                    { fieldtype: "Column Break" },
-                    {
-                        label: "Child Doctype",
-                        fieldname: "field_name",
-                        fieldtype: "Select",
-                        options: [],
-                        reqd: 0
-                    },
-                    { fieldtype: "Section Break" },
-                    {
-                        label: "Your Input",
-                        fieldname: "prompt",
-                        fieldtype: "Long Text",
-                        reqd: 1
-                    }
-                ],
-                primary_action_label: "Generate",
-                primary_action(values) {
-                    debugger
-                    console.log("Prompt:", values.prompt);
-                    console.log("Doctype:", values.doctype_name);
-                    console.log("Field:", values.field_name);
+        const frm = cur_frm;
 
-                    frappe.msgprint(`
-                        <b>Prompt:</b><br>${values.prompt}<br><br>
-                        <b>Doctype:</b> ${values.doctype_name || '-'}<br>
-                        <b>Field:</b> ${values.field_name || '-'}
-                    `);
-
-                    d.hide();
+        const d = new frappe.ui.Dialog({
+            title: "NextAI Prompt",
+            size: "large",
+            fields: [
+                {
+                    label: "Doctype",
+                    fieldname: "doctype_name",
+                    fieldtype: "Link",
+                    options: "DocType",
+                    read_only: 1,
+                    default: frm.doctype
+                },
+                {
+                    label: "Parsing",
+                    fieldname: "parsing_name",
+                    fieldtype: "Link",
+                    options: "NextAI Parsing",
+                    read_only: 1,
+                    default: parsing_name
+                },
+                { fieldtype: "Column Break" },
+                {
+                    label: "Child Doctype",
+                    fieldname: "child_doctype_name",
+                    fieldtype: "Select",
+                    options: []
+                },
+                { fieldtype: "Section Break" },
+                {
+                    label: "Your Input",
+                    fieldname: "prompt",
+                    fieldtype: "Long Text",
+                    reqd: 1
                 }
-            });
-            // --- Populate Child Doctypes ---
+            ],
+            primary_action_label: "Generate",
+            primary_action(values) {
+                frappe.call({
+                    method: "next_ai.ai.parsing.get_ai_parser_response",
+                    args: {
+                        doctype: values.doctype_name,
+                        name: values.parsing_name,
+                        message: values.prompt
+                    },
+                    callback(res) {
+                        // frappe.msgprint("Processing Done:<br>" + JSON.stringify(res.message));
+                        const data = res.message.message;
+
+                        // SAFE, CLOUD-APPROVED UPDATE
+                        for (let key in data) {
+                            if (frm.get_field(key)) {
+                                frm.set_value(key, data[key]);
+                            }
+                        }
+
+                        frm.refresh_fields();
+                    }
+                });
+
+                d.hide();
+            }
+        });
+
+        // show dialog first
+        d.show();
+
+        // Execute after dialog is rendered
+        d.on_page_show = () => {
             const table_fields = frm.meta.fields
                 .filter(df => df.fieldtype === "Table")
-                .map(df => df.options);           // child doctypes
-            
-                debugger
+                .map(df => df.options);
 
-            if (table_fields.length == 0){
-                d.set_df_property("field_name", "hidden", 1);
-            }else{
-                d.set_df_property("field_name", "options", table_fields);
+            if (table_fields.length === 0) {
+                // hide child doctype select
+                d.set_df_property("child_doctype_name", "hidden", 1);
+            } else {
+                d.set_df_property("child_doctype_name", "options", table_fields);
+
+                // optional: auto-select first
+                // d.set_value("child_doctype_name", table_fields[0]);
             }
-            d.show();
-        });
+        };
+    });
 
 
 
