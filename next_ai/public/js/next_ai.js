@@ -275,7 +275,7 @@ function injectGlobalNextAIButton() {
         const route = frappe.get_route();
         if (!route || route[0] !== "Form") return;
 
-        const frm = cur_frm;
+        const frm = window.cur_frm
         if (!frm) return;
 
         // ---------- DOCTYPE FILTERING ---------- //
@@ -325,7 +325,7 @@ function injectGlobalNextAIButton() {
         );
 
         $icon.on('click', (e) => {
-        const frm = cur_frm;
+        const frm = window.cur_frm
 
         const d = new frappe.ui.Dialog({
             title: "NextAI Prompt",
