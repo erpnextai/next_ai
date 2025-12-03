@@ -1,6 +1,7 @@
 {
  "actions": [],
  "allow_rename": 1,
+ "autoname": "format:{doc}-{YYYY}-{MM}-{DD}-{######}",
  "creation": "2025-11-02 19:15:51.309467",
  "default_view": "List",
  "doctype": "DocType",
@@ -8,6 +9,7 @@
  "engine": "InnoDB",
  "field_order": [
   "doc",
+  "enable",
   "section_break_xxgza",
   "parsing_details"
  ],
@@ -27,14 +29,21 @@
   {
    "fieldname": "section_break_xxgza",
    "fieldtype": "Section Break"
+  },
+  {
+   "default": "1",
+   "fieldname": "enable",
+   "fieldtype": "Check",
+   "label": "Enable"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-11-02 19:21:55.739921",
+ "modified": "2025-12-03 09:25:22.446762",
  "modified_by": "Administrator",
  "module": "Next AI",
  "name": "NextAI Parsing",
+ "naming_rule": "Expression",
  "owner": "Administrator",
  "permissions": [
   {
