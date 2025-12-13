@@ -246,12 +246,12 @@ function typeText($target, text, type, callback) {
     requestAnimationFrame(step);
 }
 
+// -------------------------------------------------------------
 
 function injectGlobalNextAIButton() {
-    let allowed_doctypes = [];
-    var parsing_name = 
 
-    // Fetch allowed doctypes once
+    var allowed_doctypes = [];
+
     frappe.call({
         method: "frappe.client.get_list",
         args: {
@@ -261,7 +261,6 @@ function injectGlobalNextAIButton() {
         },
         callback(r) {
             allowed_doctypes = r.message?.map(row => row.doc) || [];
-            parsing_name = r.message[0].name
             console.log("NextAI Allowed Doctypes:", allowed_doctypes);
         }
     });
@@ -288,7 +287,6 @@ function injectGlobalNextAIButton() {
 
         console.log("Injecting Fancy NextAI Button…");
 
-        // ------------ Your Fancy Button ------------- //
         const $icon = $('<button/>', {
             id: 'nextai-global-btn',
             class: 'apiIcon',
@@ -344,8 +342,14 @@ function injectGlobalNextAIButton() {
                     fieldname: "parsing_name",
                     fieldtype: "Link",
                     options: "NextAI Parsing",
-                    read_only: 1,
-                    default: parsing_name
+                    get_query() {
+                        return {
+                            filters: {
+                                enable: 1,
+                                doc: frm.doctype
+                            }
+                        }
+                    }
                 },
                 { fieldtype: "Column Break" },
                 {
@@ -426,12 +430,18 @@ function runGlobalNextAI() {
     injectGlobalNextAIButton();
 }
 
-// Run whenever user switches pages
 frappe.router.on('change', () => {
     setTimeout(runGlobalNextAI, 250);
 });
 
-// Run on initial load
 $(document).ready(() => {
     setTimeout(runGlobalNextAI, 250);
+});
+
+frappe.router.on('change', () => {
+    setTimeout(() => {
+        if (window.cur_frm) {
+            runGlobalNextAI();
+        }
+    }, 300);
 });
