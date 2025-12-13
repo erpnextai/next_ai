@@ -440,7 +440,7 @@ $(document).ready(() => {
 
 frappe.router.on('change', () => {
     setTimeout(() => {
-        if (cur_frm) {
+        if (window.cur_frm) {
             runGlobalNextAI();
         }
     }, 300);
