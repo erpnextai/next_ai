@@ -248,83 +248,95 @@ function typeText($target, text, type, callback) {
 
 // -------------------------------------------------------------
 
-function injectGlobalNextAIButton() {
+let nextai_allowed_doctypes = null;
 
-    var allowed_doctypes = [];
-
-    frappe.call({
-        method: "frappe.client.get_list",
-        args: {
-            doctype: "NextAI Parsing",
-            fields: ["name", "doc"],
-            filters: { enable: 1 }
-        },
-        callback(r) {
-            allowed_doctypes = r.message?.map(row => row.doc) || [];
-            console.log("NextAI Allowed Doctypes:", allowed_doctypes);
+/* ------------------------------------
+ * Load Allowed Doctypes (once, cached)
+ * ------------------------------------ */
+function loadNextAIAllowedDoctypes() {
+    return new Promise((resolve) => {
+        if (nextai_allowed_doctypes) {
+            resolve(nextai_allowed_doctypes);
+            return;
         }
+
+        frappe.call({
+            method: "frappe.client.get_list",
+            args: {
+                doctype: "NextAI Parsing",
+                fields: ["doc"],
+                filters: { enable: 1 }
+            },
+            callback(r) {
+                nextai_allowed_doctypes = r.message?.map(d => d.doc) || [];
+                console.log("NextAI Allowed Doctypes:", nextai_allowed_doctypes);
+                resolve(nextai_allowed_doctypes);
+            }
+        });
+    });
+}
+
+/* ------------------------------------
+ * Inject Global NextAI Button
+ * ------------------------------------ */
+async function injectGlobalNextAIButton() {
+    const route = frappe.get_route();
+    if (!route || route[0] !== "Form") return;
+
+    const frm = window.cur_frm;
+    if (!frm) return;
+
+    // Restricted system doctypes
+    if (["DocType", "Customize Form"].includes(frm.doctype)) return;
+
+    const allowed_doctypes = await loadNextAIAllowedDoctypes();
+    if (!allowed_doctypes.includes(frm.doctype)) return;
+
+    // Avoid duplicate button
+    if (document.querySelector('#nextai-global-btn')) return;
+
+    const header = document.querySelector('.page-head .page-title');
+    if (!header) return;
+
+    console.log("Injecting Fancy NextAI Button…");
+
+    const $icon = $('<button/>', {
+        id: 'nextai-global-btn',
+        type: 'button',
+        html: `
+            <div style="
+                background: white;
+                border-radius: 9999px;
+                padding: 3px 10px;
+                display: flex;
+                align-items: center;
+                gap: 6px;
+            ">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="14"
+                     fill="currentColor" viewBox="0 0 16 16">
+                    <path d="M7.657 6.247c.11-.33.576-.33.686 0l.645 1.937a2.89
+                    2.89 0 0 0 1.829 1.828l1.936.645c.33.11.33.576 0 .686
+                    l-1.937.645a2.89 2.89 0 0 0-1.828 1.829l-.645 1.936
+                    a.361.361 0 0 1-.686 0l-.645-1.937a2.89 2.89 0 0
+                    0-1.828-1.828l-1.937-.645a.361.361 0 0 1 0-.686
+                    l1.937-.645a2.89 2.89 0 0 0 1.828-1.828z"/>
+                </svg>
+                <span style="font-size:14px;font-weight:500;">Parsing</span>
+            </div>
+        `,
+        style: `
+            background: linear-gradient(to right, #00f0ff, #a000ff);
+            border-radius: 9999px;
+            padding: 2px;
+            border: none;
+            cursor: pointer;
+            margin-left: 15px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+        `
     });
 
-    const headerSelector = '.page-head .page-title';
-
-    const observer = new MutationObserver(() => {
-        const header = document.querySelector(headerSelector);
-        if (!header) return;
-
-        const route = frappe.get_route();
-        if (!route || route[0] !== "Form") return;
-
-        const frm = window.cur_frm
-        if (!frm) return;
-
-        // ---------- DOCTYPE FILTERING ---------- //
-        if (!allowed_doctypes.includes(frm.doctype)) {
-            return; // Do not load button
-        }
-
-        // Avoid duplicate
-        if (document.querySelector('#nextai-global-btn')) return;
-
-        console.log("Injecting Fancy NextAI Button…");
-
-        const $icon = $('<button/>', {
-            id: 'nextai-global-btn',
-            class: 'apiIcon',
-            type: 'button',
-            html: `
-                <div style="
-                    background: white;
-                    border-radius: 9999px;
-                    padding: 3px 10px;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    gap: 6px;
-                ">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="14" fill="currentColor" class="bi bi-stars" viewBox="0 0 16 16">
-                        <path d="M7.657 6.247c.11-.33.576-.33.686 0l.645 1.937a2.89 2.89 0 0 0 1.829 1.828l1.936.645c.33.11.33.576 0 .686l-1.937.645a2.89 2.89 0 0 0-1.828 1.829l-.645 1.936a.361.361 0 0 1-.686 0l-.645-1.937a2.89 2.89 0 0 0-1.828-1.828l-1.937-.645a.361.361 0 0 1 0-.686l1.937-.645a2.89 2.89 0 0 0 1.828-1.828zM3.794 1.148a.217.217 0 0 1 .412 0l.387 1.162c.173.518.579.924 1.097 1.097l1.162.387a.217.217 0 0 1 0 .412l-1.162.387A1.73 1.73 0 0 0 4.593 5.69l-.387 1.162a.217.217 0 0 1-.412 0L3.407 5.69A1.73 1.73 0 0 0 2.31 4.593l-1.162-.387a.217.217 0 0 1 0-.412l1.162-.387A1.73 1.73 0 0 0 3.407 2.31zM10.863.099a.145.145 0 0 1 .274 0l.258.774c.115.346.386.617.732.732l.774.258a.145.145 0 0 1 0 .274l-.774.258a1.16 1.16 0 0 0-.732.732l-.258.774a.145.145 0 0 1-.274 0l-.258-.774a1.16 1.16 0 0 0-.732-.732L9.1 2.137a.145.145 0 0 1 0-.274l.774-.258c.346-.115.617-.386.732-.732z"/>
-                    </svg>
-                    <span style="font-size: 14px; font-weight: 500; color: #333;">Parsing</span>
-                </div>
-            `,
-            style: `
-                background: linear-gradient(to right, #00f0ff, #a000ff);
-                border-radius: 9999px;
-                padding: 2px;
-                border: none;
-                cursor: pointer;
-                margin-left: 15px;
-                box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-                transition: transform 0.2s ease;
-            `
-        }).hover(
-            function () { $(this).css('transform', 'scale(1.05)'); },
-            function () { $(this).css('transform', 'scale(1)'); }
-        );
-
-        $icon.on('click', (e) => {
-        const frm = window.cur_frm
-
+    /* -------- Click Handler -------- */
+    $icon.on('click', () => {
         const d = new frappe.ui.Dialog({
             title: "NextAI Prompt",
             size: "large",
@@ -342,21 +354,15 @@ function injectGlobalNextAIButton() {
                     fieldname: "parsing_name",
                     fieldtype: "Link",
                     options: "NextAI Parsing",
+                    reqd: 1,
                     get_query() {
                         return {
                             filters: {
                                 enable: 1,
                                 doc: frm.doctype
                             }
-                        }
+                        };
                     }
-                },
-                { fieldtype: "Column Break" },
-                {
-                    label: "Child Doctype",
-                    fieldname: "child_doctype_name",
-                    fieldtype: "Select",
-                    options: []
                 },
                 { fieldtype: "Section Break" },
                 {
@@ -376,72 +382,32 @@ function injectGlobalNextAIButton() {
                         message: values.prompt
                     },
                     callback(res) {
-                        const data = res.message.message;
-
-                        for (let key in data) {
+                        const data = res.message?.message || {};
+                        Object.keys(data).forEach(key => {
                             if (frm.get_field(key)) {
                                 frm.set_value(key, data[key]);
                             }
-                        }
-
+                        });
                         frm.refresh_fields();
                     }
                 });
-
                 d.hide();
             }
         });
-
         d.show();
-
-        d.on_page_show = () => {
-            const table_fields = frm.meta.fields
-                .filter(df => df.fieldtype === "Table")
-                .map(df => df.options);
-
-            if (table_fields.length === 0) {
-                d.set_df_property("child_doctype_name", "hidden", 1);
-            } else {
-                d.set_df_property("child_doctype_name", "options", table_fields);
-            }
-        };
     });
 
-
-
-        $(header).parent().append($icon);
-    });
-
-    observer.observe(document.body, {
-        childList: true,
-        subtree: true
-    });
+    $(header).parent().append($icon);
 }
 
-function isRestrictedDoctype() {
-    const route = frappe.get_route();
-    if (!route || route[0] !== "Form") return false;
-
-    const doctype = route[1];
-    return (doctype === "DocType" || doctype === "Customize Form");
-}
-
-function runGlobalNextAI() {
-    injectGlobalNextAIButton();
-}
-
-frappe.router.on('change', () => {
-    setTimeout(runGlobalNextAI, 250);
-});
-
-$(document).ready(() => {
-    setTimeout(runGlobalNextAI, 250);
-});
 
 frappe.router.on('change', () => {
     setTimeout(() => {
-        if (window.cur_frm) {
-            runGlobalNextAI();
-        }
+        $('#nextai-global-btn').remove(); // cleanup
+        injectGlobalNextAIButton();
     }, 300);
+});
+
+$(document).ready(() => {
+    setTimeout(injectGlobalNextAIButton, 500);
 });
