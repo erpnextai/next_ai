@@ -245,3 +245,169 @@ function typeText($target, text, type, callback) {
 
     requestAnimationFrame(step);
 }
+
+// -------------------------------------------------------------
+
+let nextai_allowed_doctypes = null;
+
+/* ------------------------------------
+ * Load Allowed Doctypes (once, cached)
+ * ------------------------------------ */
+function loadNextAIAllowedDoctypes() {
+    return new Promise((resolve) => {
+        if (nextai_allowed_doctypes) {
+            resolve(nextai_allowed_doctypes);
+            return;
+        }
+
+        frappe.call({
+            method: "frappe.client.get_list",
+            args: {
+                doctype: "NextAI Parsing",
+                fields: ["doc"],
+                filters: { enable: 1 }
+            },
+            callback(r) {
+                nextai_allowed_doctypes = r.message?.map(d => d.doc) || [];
+                console.log("NextAI Allowed Doctypes:", nextai_allowed_doctypes);
+                resolve(nextai_allowed_doctypes);
+            }
+        });
+    });
+}
+
+/* ------------------------------------
+ * Inject Global NextAI Button
+ * ------------------------------------ */
+async function injectGlobalNextAIButton() {
+    const route = frappe.get_route();
+    if (!route || route[0] !== "Form") return;
+
+    const frm = window.cur_frm;
+    if (!frm) return;
+
+    // Restricted system doctypes
+    if (["DocType", "Customize Form"].includes(frm.doctype)) return;
+
+    const allowed_doctypes = await loadNextAIAllowedDoctypes();
+    if (!allowed_doctypes.includes(frm.doctype)) return;
+
+    // Avoid duplicate button
+    if (document.querySelector('#nextai-global-btn')) return;
+
+    const header = document.querySelector('.page-head .page-title');
+    if (!header) return;
+
+    console.log("Injecting Fancy NextAI Button…");
+
+    const $icon = $('<button/>', {
+        id: 'nextai-global-btn',
+        type: 'button',
+        html: `
+            <div style="
+                background: white;
+                border-radius: 9999px;
+                padding: 3px 10px;
+                display: flex;
+                align-items: center;
+                gap: 6px;
+            ">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="14"
+                     fill="currentColor" viewBox="0 0 16 16">
+                    <path d="M7.657 6.247c.11-.33.576-.33.686 0l.645 1.937a2.89
+                    2.89 0 0 0 1.829 1.828l1.936.645c.33.11.33.576 0 .686
+                    l-1.937.645a2.89 2.89 0 0 0-1.828 1.829l-.645 1.936
+                    a.361.361 0 0 1-.686 0l-.645-1.937a2.89 2.89 0 0
+                    0-1.828-1.828l-1.937-.645a.361.361 0 0 1 0-.686
+                    l1.937-.645a2.89 2.89 0 0 0 1.828-1.828z"/>
+                </svg>
+                <span style="font-size:14px;font-weight:500;">Parsing</span>
+            </div>
+        `,
+        style: `
+            background: linear-gradient(to right, #00f0ff, #a000ff);
+            border-radius: 9999px;
+            padding: 2px;
+            border: none;
+            cursor: pointer;
+            margin-left: 15px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+        `
+    });
+
+    /* -------- Click Handler -------- */
+    $icon.on('click', () => {
+        const d = new frappe.ui.Dialog({
+            title: "NextAI Prompt",
+            size: "large",
+            fields: [
+                {
+                    label: "Doctype",
+                    fieldname: "doctype_name",
+                    fieldtype: "Link",
+                    options: "DocType",
+                    read_only: 1,
+                    default: frm.doctype
+                },
+                {
+                    label: "Parsing",
+                    fieldname: "parsing_name",
+                    fieldtype: "Link",
+                    options: "NextAI Parsing",
+                    reqd: 1,
+                    get_query() {
+                        return {
+                            filters: {
+                                enable: 1,
+                                doc: frm.doctype
+                            }
+                        };
+                    }
+                },
+                { fieldtype: "Section Break" },
+                {
+                    label: "Your Input",
+                    fieldname: "prompt",
+                    fieldtype: "Long Text",
+                    reqd: 1
+                }
+            ],
+            primary_action_label: "Generate",
+            primary_action(values) {
+                frappe.call({
+                    method: "next_ai.ai.parsing.get_ai_parser_response",
+                    args: {
+                        doctype: values.doctype_name,
+                        name: values.parsing_name,
+                        message: values.prompt
+                    },
+                    callback(res) {
+                        const data = res.message?.message || {};
+                        Object.keys(data).forEach(key => {
+                            if (frm.get_field(key)) {
+                                frm.set_value(key, data[key]);
+                            }
+                        });
+                        frm.refresh_fields();
+                    }
+                });
+                d.hide();
+            }
+        });
+        d.show();
+    });
+
+    $(header).parent().append($icon);
+}
+
+
+frappe.router.on('change', () => {
+    setTimeout(() => {
+        $('#nextai-global-btn').remove(); // cleanup
+        injectGlobalNextAIButton();
+    }, 300);
+});
+
+$(document).ready(() => {
+    setTimeout(injectGlobalNextAIButton, 500);
+});

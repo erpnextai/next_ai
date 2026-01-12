@@ -76,12 +76,28 @@ jobs:
           sudo apt update
           sudo apt-get install -y mariadb-client
 
+      # - name: Setup Bench & DB
+      #   run: |
+      #     pip install frappe-bench<=15
+      #     bench init --skip-redis-config-generation --skip-assets --python "$(which python)" ~/frappe-bench
+      #     mariadb --host 127.0.0.1 --port 3306 -u root -proot -e "SET GLOBAL character_set_server = 'utf8mb4'"
+      #     mariadb --host 127.0.0.1 --port 3306 -u root -proot -e "SET GLOBAL collation_server = 'utf8mb4_unicode_ci'"
+
       - name: Setup Bench & DB
         run: |
-          pip install frappe-bench
-          bench init --skip-redis-config-generation --skip-assets --python "$(which python)" ~/frappe-bench
-          mariadb --host 127.0.0.1 --port 3306 -u root -proot -e "SET GLOBAL character_set_server = 'utf8mb4'"
-          mariadb --host 127.0.0.1 --port 3306 -u root -proot -e "SET GLOBAL collation_server = 'utf8mb4_unicode_ci'"
+          pip install "frappe-bench<6"
+          bench init ~/frappe-bench \
+            --frappe-branch version-15 \
+            --skip-redis-config-generation \
+            --skip-assets \
+            --python "$(which python)"
+      
+          mariadb --host 127.0.0.1 --port 3306 -u root -proot \
+            -e "SET GLOBAL character_set_server = 'utf8mb4'"
+      
+          mariadb --host 127.0.0.1 --port 3306 -u root -proot \
+            -e "SET GLOBAL collation_server = 'utf8mb4_unicode_ci'"
+
 
       - name: Install App
         working-directory: /home/runner/frappe-bench
