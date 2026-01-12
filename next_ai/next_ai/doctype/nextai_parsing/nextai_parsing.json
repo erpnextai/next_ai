@@ -1,0 +1,66 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "format:{doc}-{YYYY}-{MM}-{DD}-{######}",
+ "creation": "2025-11-02 19:15:51.309467",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "doc",
+  "enable",
+  "section_break_xxgza",
+  "parsing_details"
+ ],
+ "fields": [
+  {
+   "fieldname": "doc",
+   "fieldtype": "Link",
+   "label": "Doctype",
+   "options": "DocType"
+  },
+  {
+   "fieldname": "parsing_details",
+   "fieldtype": "Table",
+   "label": "Parsing Details",
+   "options": "NextAI Parsing Details"
+  },
+  {
+   "fieldname": "section_break_xxgza",
+   "fieldtype": "Section Break"
+  },
+  {
+   "default": "1",
+   "fieldname": "enable",
+   "fieldtype": "Check",
+   "label": "Enable"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2025-12-03 09:25:22.446762",
+ "modified_by": "Administrator",
+ "module": "Next AI",
+ "name": "NextAI Parsing",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}
