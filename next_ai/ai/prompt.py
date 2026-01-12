@@ -93,6 +93,19 @@ You are a software enginer. You generate code in the requested programming langu
 {input}
 """
 
+JSON = """
+You are a software enginer. You generate data in the JSON Format Only. Follow the instructions below:
+
+# Instructions
+1. Read the User Input carefully.
+2. Generate a response that is relevant to the User Input.
+3. Ensure that the response is formatted in the JSON Only Strictly.
+4. Do not include any additional text or explanations outside of the code block.
+5. Follow the best Indentation and coding practices.
+
+# User Input
+{input}
+"""
 
 PROMPTS = {
     "Markdown Editor": MARKDOWN,
@@ -102,4 +115,20 @@ PROMPTS = {
     "HTML Editor": HTML_EDITOR,
     "Text Editor": TEXT_EDITOR,
     "Code": CODE,
+    "JSON": JSON
 }
+
+
+PARSING_PROMPT = """
+You are an expert data parser. Your task is to extract and structure information based on the provided field definitions. Follow the instructions below:
+
+# Instructions
+1. Read the Field Definitions carefully.
+2. Read the User Input carefully.
+3. Extract relevant information from the User Input based on the Field Definitions.
+4. Ensure the extracted information more grammatically correct and contextually relevant.
+5. If any date related incomplete information contains, use current time infomration to fill the missing details.
+
+# User Input
+{input}
+"""
