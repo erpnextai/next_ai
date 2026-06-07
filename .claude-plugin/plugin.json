@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
+  "name": "next-ai",
+  "displayName": "Next AI",
+  "version": "0.3.1",
+  "description": "Next AI is an AI-enabled application designed for seamless content generation and enhancement. With the power of advanced language models, it helps users create high-quality content and intelligently improve existing text.",
+  "author": { "name": "NextAI Team", "email": "erpnextai@gmail.com" },
+  "homepage": "https://www.erpnextai.in",
+  "repository": "https://github.com/erpnextai/next_ai",
+  "license": "Custom Non-Commercial License",
+  "keywords": ["ai", "content-generation", "frappe", "erpnext", "gemini", "llm"]
+}
