@@ -10,7 +10,7 @@ fixtures = [
     {
         "dt": "Role",
         "filters": [
-            ["name", "in", ["NextAI User"]]
+            ["name", "in", ["NextAI User", "NextAI Chat"]]
         ]
     },
     {
@@ -25,8 +25,11 @@ fixtures = [
 # ------------------
 
 # include js, css files in header of desk.html
-# app_include_css = "/assets/next_ai/css/next_ai.css"
-app_include_js = "/assets/next_ai/js/next_ai.js"
+app_include_css = "/assets/next_ai/css/chat/nextai_chat.css"
+app_include_js = [
+    "/assets/next_ai/js/next_ai.js",
+    "/assets/next_ai/js/chat/chat.js"
+]
 
 # include js, css files in header of web template
 # web_include_css = "/assets/next_ai/css/next_ai.css"
@@ -134,13 +137,15 @@ permission_query_conditions = {
 # ---------------
 # Hook on document methods and events
 
-# doc_events = {
-# 	"*": {
-# 		"on_update": "method",
-# 		"on_cancel": "method",
-# 		"on_trash": "method"
-# 	}
-# }
+doc_events = {
+	"NextAI Settings": {
+		"on_update": "next_ai.ai.chat.models.clear_cache"
+	},
+	"NextAI Model Info": {
+		"on_update": "next_ai.ai.chat.models.clear_cache",
+		"on_trash": "next_ai.ai.chat.models.clear_cache"
+	}
+}
 
 # Scheduled Tasks
 # ---------------

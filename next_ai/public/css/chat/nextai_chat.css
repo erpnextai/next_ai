@@ -1,0 +1,316 @@
+/* NextAI Chat - Copilot-style side panel.
+ * All rules are scoped to `nextai-chat-*` classes / `body.nextai-chat-*`
+ * state classes so nothing here can collide with existing Desk styles.
+ * The panel intentionally keeps one fixed dark "Copilot" theme regardless
+ * of the Desk light/dark setting, per chat.md.
+ */
+
+:root {
+	--nextai-chat-width: 30vw;
+	--nextai-chat-bg: #1e1e1e;
+	--nextai-chat-bg-alt: #252526;
+	--nextai-chat-border: #3c3c3c;
+	--nextai-chat-text: #e8e8e8;
+	--nextai-chat-text-muted: #9c9c9c;
+	--nextai-chat-accent: #8957e5;
+	--nextai-chat-accent-alt: #00b7ff;
+	--nextai-chat-bubble-user: #2d2d30;
+	--nextai-chat-bubble-assistant: #2a2440;
+}
+
+/* Push desk content to the right 70% while the panel is open; both open
+ * and closed/minimized states return the main section to its normal,
+ * full-width layout. */
+body.nextai-chat-open .main-section {
+	margin-left: var(--nextai-chat-width);
+	width: calc(100% - var(--nextai-chat-width));
+	transition: margin-left 0.2s ease, width 0.2s ease;
+}
+
+.main-section {
+	transition: margin-left 0.2s ease, width 0.2s ease;
+}
+
+.nextai-chat-panel {
+	position: fixed;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	width: var(--nextai-chat-width);
+	min-width: 320px;
+	z-index: 1050;
+	display: flex;
+	flex-direction: column;
+	background: var(--nextai-chat-bg);
+	color: var(--nextai-chat-text);
+	border-right: 1px solid var(--nextai-chat-border);
+	box-shadow: 2px 0 12px rgba(0, 0, 0, 0.35);
+	font-size: 13px;
+}
+
+.nextai-chat-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 10px 12px;
+	background: var(--nextai-chat-bg-alt);
+	border-bottom: 1px solid var(--nextai-chat-border);
+}
+
+.nextai-chat-header-title {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	font-weight: 600;
+	color: var(--nextai-chat-text);
+}
+
+.nextai-chat-header-icon {
+	color: var(--nextai-chat-accent);
+}
+
+.nextai-chat-header-actions {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+}
+
+.nextai-chat-model-select {
+	background: var(--nextai-chat-bg);
+	color: var(--nextai-chat-text);
+	border: 1px solid var(--nextai-chat-border);
+	border-radius: 4px;
+	font-size: 12px;
+	padding: 2px 6px;
+	max-width: 140px;
+}
+
+.nextai-chat-icon-btn {
+	background: transparent;
+	border: none;
+	color: var(--nextai-chat-text-muted);
+	font-size: 16px;
+	line-height: 1;
+	padding: 2px 8px;
+	border-radius: 4px;
+}
+
+.nextai-chat-icon-btn:hover {
+	background: rgba(255, 255, 255, 0.08);
+	color: var(--nextai-chat-text);
+}
+
+.nextai-chat-context-indicator {
+	padding: 6px 12px;
+	font-size: 11px;
+	color: var(--nextai-chat-text-muted);
+	background: var(--nextai-chat-bg-alt);
+	border-bottom: 1px solid var(--nextai-chat-border);
+}
+
+.nextai-chat-messages {
+	flex: 1;
+	overflow-y: auto;
+	padding: 12px;
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+}
+
+.nextai-chat-message {
+	display: flex;
+}
+
+.nextai-chat-message-user {
+	justify-content: flex-end;
+}
+
+.nextai-chat-message-assistant {
+	justify-content: flex-start;
+}
+
+.nextai-chat-bubble {
+	max-width: 88%;
+	padding: 8px 12px;
+	border-radius: 10px;
+	line-height: 1.45;
+	word-wrap: break-word;
+	white-space: pre-wrap;
+}
+
+.nextai-chat-message-user .nextai-chat-bubble {
+	background: var(--nextai-chat-bubble-user);
+	color: var(--nextai-chat-text);
+	border-bottom-right-radius: 2px;
+}
+
+.nextai-chat-message-assistant .nextai-chat-bubble {
+	background: var(--nextai-chat-bubble-assistant);
+	color: var(--nextai-chat-text);
+	border-bottom-left-radius: 2px;
+}
+
+.nextai-chat-bubble p:last-child {
+	margin-bottom: 0;
+}
+
+.nextai-chat-typing-bubble {
+	display: flex;
+	align-items: center;
+	gap: 4px;
+	padding: 12px;
+}
+
+.nextai-chat-typing-bubble span {
+	width: 6px;
+	height: 6px;
+	border-radius: 50%;
+	background: var(--nextai-chat-text-muted);
+	animation: nextai-chat-typing-bounce 1.2s infinite ease-in-out;
+}
+
+.nextai-chat-typing-bubble span:nth-child(2) {
+	animation-delay: 0.15s;
+}
+
+.nextai-chat-typing-bubble span:nth-child(3) {
+	animation-delay: 0.3s;
+}
+
+@keyframes nextai-chat-typing-bounce {
+	0%, 60%, 100% {
+		opacity: 0.3;
+		transform: translateY(0);
+	}
+	30% {
+		opacity: 1;
+		transform: translateY(-3px);
+	}
+}
+
+.nextai-chat-attachments {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 6px;
+	padding: 0 12px;
+}
+
+.nextai-chat-attachment-chip {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	background: var(--nextai-chat-bg-alt);
+	border: 1px solid var(--nextai-chat-border);
+	color: var(--nextai-chat-text-muted);
+	border-radius: 999px;
+	padding: 2px 8px;
+	font-size: 11px;
+}
+
+.nextai-chat-attachment-label {
+	max-width: 140px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.nextai-chat-attachment-remove {
+	background: transparent;
+	border: none;
+	color: var(--nextai-chat-text-muted);
+	line-height: 1;
+	padding: 0;
+}
+
+.nextai-chat-attachment-remove:hover {
+	color: #ff6b6b;
+}
+
+.nextai-chat-composer {
+	padding: 10px 12px 12px;
+	border-top: 1px solid var(--nextai-chat-border);
+	background: var(--nextai-chat-bg-alt);
+}
+
+.nextai-chat-input {
+	background: var(--nextai-chat-bg);
+	color: var(--nextai-chat-text);
+	border: 1px solid var(--nextai-chat-border);
+	border-radius: 6px;
+	resize: none;
+	width: 100%;
+}
+
+.nextai-chat-input:focus {
+	outline: none;
+	border-color: var(--nextai-chat-accent);
+	box-shadow: 0 0 0 1px var(--nextai-chat-accent);
+}
+
+.nextai-chat-composer-actions {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-top: 8px;
+}
+
+.nextai-chat-send-btn {
+	background: linear-gradient(to right, var(--nextai-chat-accent-alt), var(--nextai-chat-accent));
+	border: none;
+}
+
+/* Floating minimized icon */
+body.nextai-chat-minimized .nextai-chat-fab {
+	display: flex;
+}
+
+.nextai-chat-fab {
+	position: fixed;
+	left: 16px;
+	bottom: 16px;
+	z-index: 1050;
+	width: 48px;
+	height: 48px;
+}
+
+.nextai-chat-fab-open {
+	width: 48px;
+	height: 48px;
+	border-radius: 50%;
+	border: none;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: linear-gradient(135deg, var(--nextai-chat-accent-alt), var(--nextai-chat-accent));
+	color: #fff;
+	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.35);
+}
+
+.nextai-chat-fab-close {
+	position: absolute;
+	top: -6px;
+	right: -6px;
+	width: 20px;
+	height: 20px;
+	border-radius: 50%;
+	border: none;
+	background: #3c3c3c;
+	color: #fff;
+	line-height: 1;
+	font-size: 13px;
+	display: none;
+}
+
+.nextai-chat-fab:hover .nextai-chat-fab-close {
+	display: block;
+}
+
+@media (max-width: 900px) {
+	:root {
+		--nextai-chat-width: 100vw;
+	}
+
+	body.nextai-chat-open .main-section {
+		display: none;
+	}
+}
