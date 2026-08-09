@@ -96,5 +96,61 @@
   "platform": "Gemini",
   "subscription_rpm": 4000,
   "verbose": "Gemini 2.5 Flash-Lite"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "NextAI Model Info",
+  "free_rpd": 1500,
+  "free_rpm": 15,
+  "is_active": 1,
+  "knowledge_cutoff": "2025-01-01",
+  "model_name": "gemini-3.1-flash-lite",
+  "modified": "2026-07-12 22:53:42.269076",
+  "name": "gemini-3.1-flash-lite",
+  "platform": "Gemini",
+  "subscription_rpm": 0,
+  "verbose": null
+ },
+ {
+  "docstatus": 0,
+  "doctype": "NextAI Model Info",
+  "free_rpd": 1500,
+  "free_rpm": 15,
+  "is_active": 1,
+  "knowledge_cutoff": "2025-01-01",
+  "model_name": "gemini-3.5-flash",
+  "modified": "2026-07-19 12:08:29.690616",
+  "name": "gemini-3.5-flash",
+  "platform": "Gemini",
+  "subscription_rpm": 0,
+  "verbose": null
+ },
+ {
+  "docstatus": 0,
+  "doctype": "NextAI Model Info",
+  "free_rpd": 100,
+  "free_rpm": 15,
+  "is_active": 1,
+  "knowledge_cutoff": "2025-01-01",
+  "model_name": "gemini-3.1-pro-previewww",
+  "modified": "2026-07-19 13:27:36.194891",
+  "name": "gemini-3.1-pro-preview",
+  "platform": "Gemini",
+  "subscription_rpm": 0,
+  "verbose": null
+ },
+ {
+  "docstatus": 0,
+  "doctype": "NextAI Model Info",
+  "free_rpd": 1500,
+  "free_rpm": 10,
+  "is_active": 1,
+  "knowledge_cutoff": "2025-01-01",
+  "model_name": "gemini-3-flash-previewwwz",
+  "modified": "2026-07-19 12:26:37.562097",
+  "name": "gemini-3-flash-preview",
+  "platform": "Gemini",
+  "subscription_rpm": 0,
+  "verbose": null
  }
 ]
